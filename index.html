@@ -7,7 +7,10 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, height=device-height">
     <title>Online Classes</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+
+    <!-- favicon -->
+    <link rel="icon" href="img/logo-icon.svg">
+    <link rel="apple-touch-icon" href="img/logo-icon.svg">
 
     <!-- importing fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,13 +31,27 @@
             <img src="img/settings-icon.svg" alt="settings icon" class="settings-img" id="settings">
         </div>
         <div id="settings-modal">
-           <div class="one-setting">
+           <div class="settings-content">
+            <span class="close">&times;</span>
                <h3>
-                   Name Of Classes
+                   Time Table
                </h3>
-               <p>
-                   eng hindi math
-               </p>
+               <table class="table bg-dark text-white" id="nametable">
+                <thead>
+                    <tr>
+                        <th scope="col">Block</th>
+                        <th scope="col">Monday</th>
+                        <th scope="col">Tuesday</th>
+                        <th scope="col">Wednesday</th>
+                        <th scope="col">Thursday</th>
+                        <th scope="col">Friday</th>
+                        <th scope="col">Saturday</th>
+                        <th scope="col">Sunday</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody" class="text-dark">
+                </tbody>
+            </table>
            </div>
         </div>
     </header>
@@ -63,7 +80,14 @@
             
         </ul>
     </div>
+     <!-- Import Jquery -->
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+     <!-- Data Tables JS -->
+     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
+     <!-- custom js -->
+    <script src="script.js" defer></script>
 </body>
 
 </html>

@@ -34,9 +34,9 @@ mainObjreset = {
 let mainObj = localStorage.getItem("mainObj");
 if (mainObj === null) {
     mainObj = mainObjreset;
-    localStorage.setItem("mainObj",JSON.stringify(mainObj));
+    localStorage.setItem("mainObj", JSON.stringify(mainObj));
 }
-else{
+else {
     mainObj = JSON.parse(mainObj);
 }
 const dayToday = new Date().getDay();
@@ -85,7 +85,7 @@ function blockNum() {
 }
 function className(num) {
     const dayToday = new Date().getDay();
-    if (num === 10 || dayToday >= 6) {
+    if (num === 10 || mainObj.timeTable.dayToday === null) {
         return "CTBlock";
     }
     return mainObj.timeTable[dayNumToStr(dayToday)][num];
@@ -261,6 +261,40 @@ function mainFunction() {
 dateTimeUpdater();
 mainFunction();
 
-document.getElementById("settings").addEventListener('click',()=>{
-    document.getElementById("settings-modal").style.display = "block";
-})
+
+function modalFunc() {
+var modal = document.getElementById("settings-modal");
+
+var btn = document.getElementById("settings");
+var span = document.getElementsByClassName("close")[0];
+
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+}
+modalFunc();
+
+function tableFiller(dict) {
+    for (const key in dict) {
+        const classListArr = dict[key];
+        console.log(classListArr)
+        for (let i = 0; i < classListArr.length; i++) {
+            const className = classListArr[i];
+            document.getElementById("tbody").innerHTML += '<tr><th scope="row">' + key + '</th><td>' +className + '</td></tr>';
+        }
+    }
+    $('#nametable').DataTable();
+}
+timeTableDict = mainObj.timeTable;
+console.log(timeTableDict)
+tableFiller(timeTableDict);

@@ -32,9 +32,9 @@ body {
   color: var(--color-2);
 }
 
-a{
-    text-decoration: none;
-    color: inherit;
+a {
+  text-decoration: none;
+  color: inherit;
 }
 header {
   display: flex;
@@ -52,21 +52,43 @@ header div {
   cursor: pointer;
 }
 
-.logo-img{
-    height: 40px;
+.logo-img {
+  height: 40px;
 }
-#settings-modal{
-    display: none;
-    background-color: var(--color-2);
+#settings-modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+  cursor: auto;
+}
+.settings-content {
+  background-color: var(--color-2);
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 10px;
+  width: 80%;
+  cursor: auto;
+}
+.close {
+  color: var(--color-1);
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
 
-    position: absolute;
-    width: 60%;
-    margin: 0;
-    padding: 0;
-    top: 0;
-
-    margin: auto;
-    cursor: auto;
+.close:hover,
+.close:focus {
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .date-day {
@@ -81,15 +103,15 @@ header div {
   height: 150px;
   text-align: center;
 }
-.am-pm{
-    font-size: 60px;
+.am-pm {
+  font-size: 60px;
 }
 #time-rn {
   font-size: 100px;
 }
-.current-block{
-    font-size: 20px;
-    font-weight: normal;
+.current-block {
+  font-size: 20px;
+  font-weight: normal;
 }
 .main-btn {
   display: block;
@@ -98,25 +120,25 @@ header div {
   padding: 10px;
 }
 .other-class-btn {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.other-class-h2{
-    margin: 20px;
+.other-class-h2 {
+  margin: 20px;
 }
-.other-class-ul{
-    list-style: none;
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.other-class-ul {
+  list-style: none;
 
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-wrap: wrap;
 }
-.other-btn{
-    font-size: 25px;
-    margin: 10px 20px;
-    padding: 8px;
+.other-btn {
+  font-size: 25px;
+  margin: 10px 20px;
+  padding: 8px;
 }
