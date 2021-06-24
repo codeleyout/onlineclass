@@ -1,0 +1,122 @@
+:root {
+  --color-1: #206a5d;
+  --color-2: #ffcc29;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+button {
+  text-decoration: none;
+  color: inherit;
+  background-color: transparent;
+
+  border: 1px solid var(--color-2);
+  border-radius: 5px;
+
+  font-family: "New Tegomin", Roboto Mono;
+  cursor: pointer;
+}
+button:hover,
+button:focus {
+  color: var(--color-1);
+  background-color: var(--color-2);
+
+  outline: none;
+}
+
+body {
+  font-family: Roboto Mono;
+  background-color: var(--color-1);
+  color: var(--color-2);
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  height: 60px;
+  background-color: var(--color-2);
+  color: var(--color-1);
+
+  font-weight: 800;
+}
+header div {
+  margin: 20px;
+  cursor: pointer;
+}
+
+.logo-img{
+    height: 40px;
+}
+#settings-modal{
+    display: none;
+    background-color: var(--color-2);
+
+    position: absolute;
+    width: 60%;
+    margin: 0;
+    padding: 0;
+    top: 0;
+
+    margin: auto;
+    cursor: auto;
+}
+
+.date-day {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.date-day div {
+  margin: 20px;
+}
+.time-div {
+  height: 150px;
+  text-align: center;
+}
+.am-pm{
+    font-size: 60px;
+}
+#time-rn {
+  font-size: 100px;
+}
+.current-block{
+    font-size: 20px;
+    font-weight: normal;
+}
+.main-btn {
+  display: block;
+  margin: auto;
+  font-size: 40px;
+  padding: 10px;
+}
+.other-class-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.other-class-h2{
+    margin: 20px;
+}
+.other-class-ul{
+    list-style: none;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-wrap: wrap;
+}
+.other-btn{
+    font-size: 25px;
+    margin: 10px 20px;
+    padding: 8px;
+}
