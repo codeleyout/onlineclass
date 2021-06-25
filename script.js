@@ -144,20 +144,20 @@ function mainWorker() {
 
     // Datetime file starts here
 
-    function convertHours(num) {
-        if (num <= 12) {
-            return num;
-        }
-        else {
-            return num - 12;
-        }
-    }
     function convertToZero(num) {
         if (num < 10) {
             return "0" + num;
         }
         else {
             return num;
+        }
+    }
+    function convertHours(num) {
+        if (num <= 12) {
+            return num;
+        }
+        else {
+            return num - 12;
         }
     }
     function AMorPM(num) {
@@ -278,7 +278,7 @@ function modalFunc() {
     span.onclick = function () {
         modal.style.display = "none";
     }
-
+    
     window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
@@ -287,7 +287,8 @@ function modalFunc() {
 }
 modalFunc();
 
-function tableFiller(dict) {
+function nameFiller() {
+    dict = JSON.parse(localStorage.getItem('mainObj')).timeTable;
     function transpose(matrix) {
         const rows = matrix.length, cols = matrix[0].length;
         const grid = [];
@@ -331,9 +332,56 @@ function tableFiller(dict) {
     tableData = transpose(tableData);
     for (let i = 0; i < tableData.length; i++) {
         const arr = tableData[i];
-        document.getElementById("tbody").innerHTML += '<tr>' + arr.join('') + '</tr>';
+        document.getElementById("namebody").innerHTML += '<tr>' + arr.join('') + '</tr>';
     }
 }
 
-timeTableDict = JSON.parse(localStorage.getItem('mainObj')).timeTable;
-tableFiller(timeTableDict);
+nameFiller();
+function linkFiller() {
+    dict = JSON.parse(localStorage.getItem('mainObj')).classLink;
+    sno = 1;
+    for (const key in dict) {
+        tdata = '';
+        const value = dict[key]; 
+        tdata += '<td>'+sno+'</td>'+'<td>'+key+'</td>'+'<td>'+value+'</td>';
+        document.getElementById("linkbody").innerHTML += '<tr>' + tdata + '</tr>';
+        sno++;
+    }
+}
+linkFiller();
+function timeFiller() {
+    function convertHours(num) {
+        if (num <= 12) {
+            return num*1;
+        }
+        else {
+            return num - 12;
+        }
+    }
+    function AMorPM(num) {
+        if (num < 12) {
+            return "AM";
+        }
+        else {
+            return "PM";
+        }
+    }
+    function formatTime(number) {
+        if (number.length === 5) {
+            number = '0'+number;
+        }
+        minutes = number.substring(2,4);
+        hours = number.substring(0,2);
+        return (convertHours(hours)+':'+minutes+' '+AMorPM(hours));
+    }
+    dict = JSON.parse(localStorage.getItem('mainObj')).blockStartTimings;
+    sno = 1;
+    for (const key in dict) {
+        tdata = '';
+        const value = dict[key]; 
+        tdata += '<td>'+sno+'</td>'+'<td>'+key+'</td>'+'<td>'+formatTime(value.toString())+'</td>';
+        document.getElementById("timebody").innerHTML += '<tr>' + tdata + '</tr>';
+        sno++;
+    }
+}
+timeFiller();

@@ -93,6 +93,7 @@ th{
   background-color: var(--color-2);
   color: var(--color-1);
   text-transform: uppercase;
+  border: 2px solid var(--color-1);
 }
 td{
   text-align: center;
