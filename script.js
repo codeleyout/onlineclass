@@ -340,8 +340,8 @@ function nameFiller() {
             for (let i = 0; i < classListArr.length; i++) {
                 const className = classListArr[i];
                 // tableData[sno-1].push('<td>' + className + '</td>');
-                tableData[sno - 1].push(`<td><select class="form-control" name="` + sno - 1 + `-` + i + `">
-                <option selected value="`+ className + `">` + className + `</option>
+                tableData[sno - 1].push(`<td><select class="form-control" name="${sno-1}-${i}">
+                <option selected value="${className}">${className}</option>
                 <option value="Toyota">Toyota</option>
                 <option value="Mitsubishi">Mitsubishi</option>
                </select></td>`);
