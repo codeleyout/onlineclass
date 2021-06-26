@@ -245,3 +245,14 @@ height: 100%;
   margin: 10px 20px;
   padding: 8px;
 }
+footer{
+  color: var(--color-1);
+  background-color: var(--color-2);
+  text-align: center;
+  vertical-align: center;
+  padding: 10px;
+  font-size: 1rem;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
