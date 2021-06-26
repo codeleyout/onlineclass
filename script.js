@@ -51,7 +51,7 @@ function mainWorker() {
         </button>
         </li>`;
         document.getElementById("other-class-ul").innerHTML += htmlToAdd;
-        
+
     }
     function timeAsNum(hours, minutes, seconds) {
         return hours * 10000 + minutes * 100 + seconds;
@@ -332,28 +332,39 @@ function nameFiller() {
         const classListArr = dict[key];
         if (classListArr === null) {
             for (let i = 0; i < def_len; i++) {
-                tableData[sno - 1].push('<td>null</td>');
+                linkNameArr = JSON.parse(localStorage.getItem('mainObj')).classLink;
+                tempVar = '';
+                tempVar += `<option selected value="null">Null</option>`;
+                for (const key in linkNameArr) {
+                    tempVar += `<option value="${key}">${key}</option>`;
+                }
+                tableData[sno - 1].push(`<td><div class="select-box"><select class="form-control" name="${sno - 1}-${i}" id="${sno - 1}-${i}">
+                ${tempVar}
+               </select></div></td>`);
             }
         }
         else {
             def_len = classListArr.length;
             for (let i = 0; i < classListArr.length; i++) {
                 const className = classListArr[i];
-                console.log(classListArr);
                 tempVar = '';
                 for (let j = 0; j < classListArr.length; j++) {
                     const value = classListArr[j];
                     if (value === classListArr[i]) {
                         tempVar += `<option selected value="${value}">${value}</option>`;
-                     }
-                     else{
-                     tempVar += `<option value="${value}">${value}</option>`;
-                     }
+                        tempVar += `<option value="null">Null</option>`;
+                    }
                 }
-                tableData[sno - 1].push(`<td><select class="form-control" name="${sno-1}-${i}" id="${sno-1}-${i}">
+
+                linkNameArr = JSON.parse(localStorage.getItem('mainObj')).classLink;
+                for (const key in linkNameArr) {
+                    if (key != classListArr[i]) {
+                        tempVar += `<option value="${key}">${key}</option>`;
+                    }
+                }
+                tableData[sno - 1].push(`<td><div class="select-box"><select class="form-control" name="${sno - 1}-${i}" id="${sno - 1}-${i}">
                 ${tempVar}
-               </select></td>`);
-                //// made a blunder here check this
+               </select></div></td>`);
             }
         }
         sno++;
