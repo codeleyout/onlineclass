@@ -339,11 +339,19 @@ function nameFiller() {
             def_len = classListArr.length;
             for (let i = 0; i < classListArr.length; i++) {
                 const className = classListArr[i];
-                // tableData[sno-1].push('<td>' + className + '</td>');
-                tableData[sno - 1].push(`<td><select class="form-control" name="${sno-1}-${i}">
-                <option selected value="${className}">${className}</option>
-                <option value="Toyota">Toyota</option>
-                <option value="Mitsubishi">Mitsubishi</option>
+                console.log(classListArr);
+                tempVar = '';
+                for (let j = 0; j < classListArr.length; j++) {
+                    const value = classListArr[j];
+                    if (value === classListArr[i]) {
+                        tempVar += `<option selected value="${value}">${value}</option>`;
+                     }
+                     else{
+                     tempVar += `<option value="${value}">${value}</option>`;
+                     }
+                }
+                tableData[sno - 1].push(`<td><select class="form-control" name="${sno-1}-${i}" id="${sno-1}-${i}">
+                ${tempVar}
                </select></td>`);
                 //// made a blunder here check this
             }
