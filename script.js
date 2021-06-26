@@ -323,7 +323,7 @@ function nameFiller() {
     for (const key in dict) {
         const classListArr = dict[key];
         if (classListArr != null) {
-            tableData[sno - 1].push('<td>' + sno2 + '</td>');
+            tableData[sno - 1].push(`<td >` + sno2 + '</td>');
             sno2++;
         }
     }
@@ -334,9 +334,9 @@ function nameFiller() {
             for (let i = 0; i < def_len; i++) {
                 linkNameArr = JSON.parse(localStorage.getItem('mainObj')).classLink;
                 tempVar = '';
-                tempVar += `<option selected value="null">Null</option>`;
+                tempVar += `<option selected value="null" style="width:4ch">Null</option>`;
                 for (const key in linkNameArr) {
-                    tempVar += `<option value="${key}">${key}</option>`;
+                    tempVar += `<option value="${key}" style="width:${key.length}ch">${key}</option>`;
                 }
                 tableData[sno - 1].push(`<td><div class="select-box"><select class="form-control" name="${sno - 1}-${i}" id="${sno - 1}-${i}">
                 ${tempVar}
@@ -351,8 +351,8 @@ function nameFiller() {
                 for (let j = 0; j < classListArr.length; j++) {
                     const value = classListArr[j];
                     if (value === classListArr[i]) {
-                        tempVar += `<option selected value="${value}">${value}</option>`;
-                        tempVar += `<option value="null">Null</option>`;
+                        tempVar += `<option selected value="${value}" style="width:${value.length}ch">${value}</option>`;
+                        tempVar += `<option value="null" style="width:4ch">Null</option>`;
                     }
                 }
 
@@ -383,7 +383,8 @@ function linkFiller() {
     for (const key in dict) {
         tdata = '';
         const value = dict[key];
-        tdata += '<td>' + sno + '</td>' + '<td>' + key + '</td>' + '<td>' + value + '</td>';
+        // tdata += '<td>' + sno + '</td>' + '<td>' + key + '</td>' + '<td>' + value + '</td>';
+        tdata += `<td>${sno}</td><td><input type="text" value="${key}" style="width:${key.length}ch;"></td><td><input type="text" value="${value}" style="width:${value.length}ch"></td>`;
         document.getElementById("linkbody").innerHTML += '<tr>' + tdata + '</tr>';
         sno++;
     }
