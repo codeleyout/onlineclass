@@ -84,11 +84,14 @@ header div {
   background-color: var(--color-1);
   padding: 10px 0;
 }
-h3 a{
+.settings-content h3 a{
   text-decoration: underline;
   color: var(--color-1);
   background-color: var(--color-2);
   padding: 0 5px;
+}
+.settings-content h3:last-child{
+  margin-top: 20px;
 }
 .settings-content h4{
   font-size: 15px;
