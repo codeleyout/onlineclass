@@ -41,14 +41,17 @@ function mainWorker() {
         mainObj = JSON.parse(mainObj);
     }
     const dayToday = new Date().getDay();
-    for (let i = 0; i < mainObj.timeTable[dayNumToStr(dayToday)].length; i++) {
-        const subject = mainObj.timeTable[dayNumToStr(dayToday)][i];
+    for (let subject in mainObj.classLink) {
+        if (subject === "CTBlock") {
+            subject = "CT Block";
+        }
         htmlToAdd = `<li>
-    <button class="other-btn" id="${subject}-btn">
-        ${subject}
-    </button>
-    </li>`;
+        <button class="other-btn" id="${subject}-btn">
+            ${subject}
+        </button>
+        </li>`;
         document.getElementById("other-class-ul").innerHTML += htmlToAdd;
+        
     }
     function timeAsNum(hours, minutes, seconds) {
         return hours * 10000 + minutes * 100 + seconds;
@@ -104,8 +107,8 @@ function mainWorker() {
         }
         const dayToday = new Date().getDay();
         if (checknum === 1) {
-            for (let i = 0; i < mainObj.timeTable[dayNumToStr(dayToday)].length; i++) {
-                const subject = mainObj.timeTable[dayNumToStr(dayToday)][i];
+            for (let i = 0; i < mainObj.classLink.length; i++) {
+                const subject = mainObj.classLink[i];
                 document.getElementById(subject + "-btn").addEventListener('click', () => {
                     newTab = window.open(mainObj.classLink[subject]);
                     setTimeout(() => { newTab.close(); }, mainObj.timeToCloseTab);
@@ -113,17 +116,29 @@ function mainWorker() {
             }
             checknum++;
         }
+        if (dayToday <= 5) {
 
-        if (blockNum() >= 0 && blockNum() <= mainObj.timeTable[dayNumToStr(dayToday)].length && classRN != "CTBlock") {
-            if (checknum2 === 1) {
-                document.getElementById("main-btn").addEventListener('click', () => {
-                    newTab = window.open(mainObj.classLink[classRN]);
-                    setTimeout(() => { newTab.close(); }, mainObj.timeToCloseTab);
-                });
-                checknum2++;
+            if (blockNum() >= 0 && blockNum() <= mainObj.timeTable[dayNumToStr(dayToday)].length && classRN != "CTBlock") {
+                if (checknum2 === 1) {
+                    document.getElementById("main-btn").addEventListener('click', () => {
+                        newTab = window.open(mainObj.classLink[classRN]);
+                        setTimeout(() => { newTab.close(); }, mainObj.timeToCloseTab);
+                    });
+                    checknum2++;
+                }
+
+                return classRN;
             }
-
-            return classRN;
+            else {
+                if (checknum2 === 1) {
+                    document.getElementById("main-btn").addEventListener('click', () => {
+                        newTab = window.open(mainObj.classLink["CTBlock"]);
+                        setTimeout(() => { newTab.close(); }, mainObj.timeToCloseTab);
+                    });
+                    checknum2++;
+                }
+                return "Class Teacher Block";
+            }
         }
         else {
             if (checknum2 === 1) {
@@ -278,7 +293,7 @@ function modalFunc() {
     span.onclick = function () {
         modal.style.display = "none";
     }
-    
+
     window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
@@ -293,22 +308,22 @@ function nameFiller() {
         const rows = matrix.length, cols = matrix[0].length;
         const grid = [];
         for (let j = 0; j < cols; j++) {
-          grid[j] = Array(rows);
+            grid[j] = Array(rows);
         }
         for (let i = 0; i < rows; i++) {
-          for (let j = 0; j < cols; j++) {
-            grid[j][i] = matrix[i][j];
-          }
+            for (let j = 0; j < cols; j++) {
+                grid[j][i] = matrix[i][j];
+            }
         }
         return grid;
-      }
+    }
     sno = 1;
-    sno2=1;
-    tableData = [[],[],[],[],[],[],[],[]];
+    sno2 = 1;
+    tableData = [[], [], [], [], [], [], [], []];
     for (const key in dict) {
         const classListArr = dict[key];
         if (classListArr != null) {
-            tableData[sno-1].push('<td>'+sno2+'</td>');
+            tableData[sno - 1].push('<td>' + sno2 + '</td>');
             sno2++;
         }
     }
@@ -317,14 +332,20 @@ function nameFiller() {
         const classListArr = dict[key];
         if (classListArr === null) {
             for (let i = 0; i < def_len; i++) {
-                tableData[sno-1].push('<td>null</td>');
+                tableData[sno - 1].push('<td>null</td>');
             }
         }
         else {
             def_len = classListArr.length;
             for (let i = 0; i < classListArr.length; i++) {
                 const className = classListArr[i];
-                tableData[sno-1].push('<td>' + className + '</td>');
+                // tableData[sno-1].push('<td>' + className + '</td>');
+                tableData[sno - 1].push(`<td><select class="form-control" name="` + sno - 1 + `-` + i + `">
+                <option selected value="`+ className + `">` + className + `</option>
+                <option value="Toyota">Toyota</option>
+                <option value="Mitsubishi">Mitsubishi</option>
+               </select></td>`);
+                //// made a blunder here check this
             }
         }
         sno++;
@@ -342,8 +363,8 @@ function linkFiller() {
     sno = 1;
     for (const key in dict) {
         tdata = '';
-        const value = dict[key]; 
-        tdata += '<td>'+sno+'</td>'+'<td>'+key+'</td>'+'<td>'+value+'</td>';
+        const value = dict[key];
+        tdata += '<td>' + sno + '</td>' + '<td>' + key + '</td>' + '<td>' + value + '</td>';
         document.getElementById("linkbody").innerHTML += '<tr>' + tdata + '</tr>';
         sno++;
     }
@@ -352,7 +373,7 @@ linkFiller();
 function timeFiller() {
     function convertHours(num) {
         if (num <= 12) {
-            return num*1;
+            return num * 1;
         }
         else {
             return num - 12;
@@ -368,18 +389,18 @@ function timeFiller() {
     }
     function formatTime(number) {
         if (number.length === 5) {
-            number = '0'+number;
+            number = '0' + number;
         }
-        minutes = number.substring(2,4);
-        hours = number.substring(0,2);
-        return (convertHours(hours)+':'+minutes+' '+AMorPM(hours));
+        minutes = number.substring(2, 4);
+        hours = number.substring(0, 2);
+        return ('<input type="number" value="' + convertHours(hours) + '"</input>:<input type="number" value="' + minutes + '"</input> ' + AMorPM(hours));
     }
     dict = JSON.parse(localStorage.getItem('mainObj')).blockStartTimings;
     sno = 1;
     for (const key in dict) {
         tdata = '';
-        const value = dict[key]; 
-        tdata += '<td>'+sno+'</td>'+'<td>'+key+'</td>'+'<td>'+formatTime(value.toString())+'</td>';
+        const value = dict[key];
+        tdata += '<td>' + sno + '</td>' + '<td>' + key + '</td>' + '<td>' + formatTime(value.toString()) + '</td>';
         document.getElementById("timebody").innerHTML += '<tr>' + tdata + '</tr>';
         sno++;
     }
