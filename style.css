@@ -135,10 +135,11 @@ header div {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  overflow-x: scroll;
 }
 .color-theme {
   height: 100px;
-  width: 100px;
+  min-width: 100px;
   border-radius: 10px;
   transition: transform 0.1s ease-in-out;
   position: relative;
@@ -168,8 +169,8 @@ header div {
   overflow: hidden;
   display: none;
 }
-.tick-mark::before{
-  content: '';
+.tick-mark::before {
+  content: "";
   height: 100%;
   width: 100%;
   background: var(--color-1);
@@ -177,7 +178,7 @@ header div {
   position: absolute;
   z-index: 300;
 }
-#activetheme .tick-mark{
+#activetheme .tick-mark {
   display: block;
 }
 .theme-1 {
