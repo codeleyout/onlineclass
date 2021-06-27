@@ -116,7 +116,7 @@ function mainWorker() {
             }
             checknum++;
         }
-        if (dayToday <= 5) {
+        if (mainObj.timeTable[dayNumToStr(dayToday)] != null) {
 
             if (blockNum() >= 0 && blockNum() <= mainObj.timeTable[dayNumToStr(dayToday)].length && classRN != "CTBlock") {
                 if (checknum2 === 1) {
