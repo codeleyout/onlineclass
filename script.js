@@ -2,16 +2,16 @@ function globalDt() {
     return new Date();
 }
 function mainWorker() {
-
-    mainObjreset = {
+    
+    window.mainObjreset = {
         "timeTable": {
             "Monday": ["English", "Chemistry", "Physics", "Maths", "Computer"],
             "Tuesday": ["English", "Chemistry", "Physics", "Maths", "Computer"],
             "Wednesday": ["English", "Chemistry", "Physics", "Maths", "Computer"],
             "Thursday": ["English", "Chemistry", "Physics", "Maths", "Computer"],
             "Friday": ["Chemistry", "English", "Physics", "Maths", "Computer"],
-            "Saturday": null,
-            "Sunday": null
+            "Saturday": [null, null, null, null, null],
+            "Sunday": [null, null, null, null, null],
         },
         "classLink": {
             "CTBlock": "https://us04web.zoom.us/j/5556312068?pwd=bHUzSjBZTytoNC9hOEpKUlM0cDNnUT09",
@@ -328,53 +328,52 @@ function nameFiller() {
     sno = 1;
     sno2 = 1;
     tableData = [[], [], [], [], [], [], [], []];
-    for (const key in dict) {
-        const classListArr = dict[key];
-        if (classListArr != null) {
-            tableData[sno - 1].push(`<td >` + sno2 + '</td>');
-            sno2++;
-        }
+    linkDict = (Object.keys(JSON.parse(localStorage.getItem('mainObj')).blockStartTimings).length-2);
+    for (let i = 0; i < linkDict; i++) {
+        tableData[sno - 1].push(`<td >` + sno2 + '</td>');
+        sno2++;
     }
+    // for (const key in dict) {
+    //     const classListArr = dict[key];
+    //     if (classListArr != null) {
+    //     }
+    // }
     sno++
     for (const key in dict) {
         const classListArr = dict[key];
-        if (classListArr === null) {
-            for (let i = 0; i < def_len; i++) {
-                linkNameArr = JSON.parse(localStorage.getItem('mainObj')).classLink;
-                tempVar = '';
-                tempVar += `<option selected value="null" style="width:4ch">Null</option>`;
-                for (const key in linkNameArr) {
-                    tempVar += `<option value="${key}" style="width:${key.length}ch">${key}</option>`;
-                }
-                tableData[sno - 1].push(`<td><div class="select-box"><select class="form-control" name="${sno - 1}-${i}" id="${sno - 1}-${i}" onchange="ttConfiguration(this)">
-                ${tempVar}
-               </select></div></td>`);
-            }
-        }
-        else {
-            def_len = classListArr.length;
-            for (let i = 0; i < classListArr.length; i++) {
-                const className = classListArr[i];
-                tempVar = '';
-                for (let j = 0; j < classListArr.length; j++) {
-                    const value = classListArr[j];
-                    if (value === classListArr[i]) {
+        def_len = classListArr.length;
+        for (let i = 0; i < classListArr.length; i++) {
+            const className = classListArr[i];
+            tempVar = '';
+            for (let j = 0; j < classListArr.length; j++) {
+                const value = classListArr[j];
+                if (value === classListArr[i]) {
+                    if (value === null) {
+                        linkNameArr = JSON.parse(localStorage.getItem('mainObj')).classLink;
+                        tempVar = '';
+                        tempVar += `<option selected value="null" style="width:4ch">Null</option>`;
+                        // for (const key in linkNameArr) {
+                        //     tempVar += `<option value="${key}" style="width:${key.length}ch">${key}</option>`;
+                        // }
+                    }
+                    else {
                         tempVar += `<option selected value="${value}" style="width:${value.length}ch">${value}</option>`;
                         tempVar += `<option value="null" style="width:4ch">Null</option>`;
                     }
                 }
+            }
 
-                linkNameArr = JSON.parse(localStorage.getItem('mainObj')).classLink;
-                for (const key in linkNameArr) {
-                    if (key != classListArr[i]) {
-                        tempVar += `<option value="${key}">${key}</option>`;
-                    }
+            linkNameArr = JSON.parse(localStorage.getItem('mainObj')).classLink;
+            for (const key in linkNameArr) {
+                if (key != classListArr[i]) {
+                    tempVar += `<option value="${key}">${key}</option>`;
                 }
-                tableData[sno - 1].push(`<td><div class="select-box"><select class="form-control" name="${sno - 1}-${i}" id="${sno - 1}-${i}" onchange="ttConfiguration(this)">
+            }
+            tableData[sno - 1].push(`<td><div class="select-box"><select class="form-control" name="${sno - 1}-${i}" id="${sno - 1}-${i}" onchange="ttConfiguration(this)">
                 ${tempVar}
                </select></div></td>`);
-            }
         }
+
         sno++;
     }
     tableData = transpose(tableData);
@@ -459,20 +458,11 @@ function ttConfiguration(element) {
     let blockNo = element.id.split('-')[1];
     let day = dayNumToStr(parseInt(dayNo));
     let changedObj = mainObj;
-    if (changedObj.timeTable[day] === null) {
-        changedObj.timeTable[day] = [];
-        for (let i = 0; i < (mainObj.blockStartTimings.length - 2); i++) {
-            if (i === blockNo) {
-                changedObj.timeTable[day].push(element.value);
-            }
-            else {
-                changedObj.timeTable[day].push("null");
-            }
-        }
 
-    }
-    else {
-        changedObj.timeTable[day][blockNo] = element.value;
-    }
+    changedObj.timeTable[day][blockNo] = element.value;
     localStorage.setItem('mainObj', JSON.stringify(changedObj));
+}
+function resetEverything() {
+    localStorage.setItem('mainObj',JSON.stringify(window.mainObjreset));
+    location = ".";
 }
