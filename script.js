@@ -1,3 +1,6 @@
+function globalDt() {
+    return new Date();
+}
 function mainWorker() {
 
     mainObjreset = {
@@ -24,7 +27,7 @@ function mainWorker() {
             "Block2": timeAsNum(9, 40, 0),
             "Block3": timeAsNum(10, 30, 0),
             "Block4": timeAsNum(11, 20, 0),
-            "Block5": timeAsNum(12, 10, 0),
+            "Block5": timeAsNum(12, 20, 0),
             "end": timeAsNum(13, 0, 0)
         },
         "timeToCloseTab": 10000,
@@ -37,14 +40,14 @@ function mainWorker() {
     else {
         mainObj = JSON.parse(mainObj);
     }
-    const dayToday = new Date().getDay();
+    const dayToday = globalDt().getDay();
     for (let subject in mainObj.classLink) {
         let subid;
         if (subject === "CTBlock") {
             subject = "CT Block";
             subid = "CTBlock";
         }
-        else{
+        else {
             subid = subject;
         }
         htmlToAdd = `<li>
@@ -69,9 +72,9 @@ function mainWorker() {
     }
 
     function blockNum() {
-        const secondsNow = new Date().getSeconds();
-        const minutesNow = new Date().getMinutes();
-        const hoursNow = new Date().getHours();
+        const secondsNow = globalDt().getSeconds();
+        const minutesNow = globalDt().getMinutes();
+        const hoursNow = globalDt().getHours();
 
         const currentTime = timeAsNum(hoursNow, minutesNow, secondsNow);
         let blockArr = [];
@@ -83,15 +86,15 @@ function mainWorker() {
             if ((currentTime > blockArr[0] && currentTime < blockArr[1]) || (currentTime > blockArr[-1])) {
                 return 10;
             }
-            if (currentTime > blockArr[i] && currentTime < blockArr[i + 1]) {
-                return i;
+            if (currentTime >= blockArr[i] && currentTime < blockArr[i + 1]) {
+                return i - 1;
             }
         }
         return 10;
     }
     function className(num) {
-        const dayToday = new Date().getDay();
-        if (num === 10 || mainObj.timeTable.dayToday === null) {
+        const dayToday = globalDt().getDay();
+        if (num === 10 || mainObj.timeTable[dayNumToStr(dayToday)] === null) {
             return "CTBlock";
         }
         return mainObj.timeTable[dayNumToStr(dayToday)][num];
@@ -107,7 +110,7 @@ function mainWorker() {
             initialClass = classRN;
             checknum2 = 1;
         }
-        const dayToday = new Date().getDay();
+        const dayToday = globalDt().getDay();
         if (checknum === 1) {
             for (let i = 0; i < Object.keys(mainObj.classLink).length; i++) {
                 const subject = Object.keys(mainObj.classLink)[i];
@@ -245,7 +248,7 @@ function mainWorker() {
         }
     }
     function dateTimeUpdater() {
-        const dateTimeInfo = new Date();
+        const dateTimeInfo = globalDt();
         const day = dateTimeInfo.getDay();
         const date = dateTimeInfo.getDate();
         const month = dateTimeInfo.getMonth();
@@ -294,7 +297,11 @@ function modalFunc() {
     span.onclick = function () {
         modal.style.display = "none";
     }
-
+    document.onkeydown = function (event) {
+        if (event.keyCode == 27) {
+            modal.style.display = "none";
+        }
+    }
     window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
@@ -339,7 +346,7 @@ function nameFiller() {
                 for (const key in linkNameArr) {
                     tempVar += `<option value="${key}" style="width:${key.length}ch">${key}</option>`;
                 }
-                tableData[sno - 1].push(`<td><div class="select-box"><select class="form-control" name="${sno - 1}-${i}" id="${sno - 1}-${i}">
+                tableData[sno - 1].push(`<td><div class="select-box"><select class="form-control" name="${sno - 1}-${i}" id="${sno - 1}-${i}" onchange="ttConfiguration(this)">
                 ${tempVar}
                </select></div></td>`);
             }
@@ -363,7 +370,7 @@ function nameFiller() {
                         tempVar += `<option value="${key}">${key}</option>`;
                     }
                 }
-                tableData[sno - 1].push(`<td><div class="select-box"><select class="form-control" name="${sno - 1}-${i}" id="${sno - 1}-${i}">
+                tableData[sno - 1].push(`<td><div class="select-box"><select class="form-control" name="${sno - 1}-${i}" id="${sno - 1}-${i}" onchange="ttConfiguration(this)">
                 ${tempVar}
                </select></div></td>`);
             }
@@ -427,3 +434,45 @@ function timeFiller() {
     }
 }
 timeFiller();
+function ttConfiguration(element) {
+    function dayNumToStr(num) {
+        switch (num) {
+            case 1:
+                return "Monday";
+            case 2:
+                return "Tuesday";
+            case 3:
+                return "Wednesday";
+            case 4:
+                return "Thursday";
+            case 5:
+                return "Friday";
+            case 6:
+                return "Saturday";
+            case 7:
+                return "Sunday";
+        }
+
+    }
+    let mainObj = JSON.parse(localStorage.getItem('mainObj'));
+    let dayNo = element.id.split('-')[0];
+    let blockNo = element.id.split('-')[1];
+    let day = dayNumToStr(parseInt(dayNo));
+    let changedObj = mainObj;
+    if (changedObj.timeTable[day] === null) {
+        changedObj.timeTable[day] = [];
+        for (let i = 0; i < (mainObj.blockStartTimings.length - 2); i++) {
+            if (i === blockNo) {
+                changedObj.timeTable[day].push(element.value);
+            }
+            else {
+                changedObj.timeTable[day].push("null");
+            }
+        }
+
+    }
+    else {
+        changedObj.timeTable[day][blockNo] = element.value;
+    }
+    localStorage.setItem('mainObj', JSON.stringify(changedObj));
+}
