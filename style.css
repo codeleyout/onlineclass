@@ -1,13 +1,25 @@
-:root {
+.t-1:root {
   --color-1: #206a5d;
   --color-2: #ffcc29;
+}
+.t-2:root {
+  --color-1: #34206a;
+  --color-2: #ae8a16;
+}
+.t-3:root {
+  --color-1: #6a2520;
+  --color-2: #5fff29;
+}
+.t-4:root {
+  --color-1: #6a5020;
+  --color-2: #ff29db;
 }
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-html{
+html {
   scroll-behavior: smooth;
 }
 button {
@@ -60,7 +72,7 @@ header div {
   margin: 20px;
   cursor: pointer;
 }
-.title-div a{
+.title-div a {
   width: 100%;
 }
 .logo-img {
@@ -88,23 +100,23 @@ header div {
   width: 80%;
   cursor: auto;
 }
-.settings-content h3{
+.settings-content h3 {
   text-align: center;
   font-size: 50px;
   color: var(--color-2);
   background-color: var(--color-1);
   padding: 10px 0;
 }
-.settings-content h3 a{
+.settings-content h3 a {
   text-decoration: underline;
   color: var(--color-1);
   background-color: var(--color-2);
   padding: 0 5px;
 }
-.settings-content h3:last-child{
+.settings-content h3:last-child {
   margin-top: 20px;
 }
-.settings-content h4{
+.settings-content h4 {
   font-size: 15px;
   margin: 50px auto;
   padding: 10px 20px;
@@ -113,13 +125,86 @@ header div {
   width: fit-content;
   text-align: justify;
 }
-.settings-content h4 strong{
+.settings-content h4 strong {
   text-transform: uppercase;
   color: var(--color-1);
   background-color: var(--color-2);
   padding: 0 5px;
 }
-.select-box{
+.color-themes-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.color-theme {
+  height: 100px;
+  width: 100px;
+  border-radius: 10px;
+  transition: transform 0.1s ease-in-out;
+  position: relative;
+  border: 2px solid var(--color-1);
+}
+.color-theme:hover {
+  transform: scale(1.1);
+}
+.color-theme::after {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+.tick-mark {
+  height: 100%;
+  width: 100%;
+  background: var(--color-2);
+  clip-path: polygon(10% 50%, 40% 70%, 80% 0, 100% 10%, 45% 100%, 0 70%);
+  margin: 0;
+  position: absolute;
+  z-index: 200;
+  transform-origin: center center;
+  transform: scale(0.6);
+  overflow: hidden;
+  display: none;
+}
+.tick-mark::before{
+  content: '';
+  height: 100%;
+  width: 100%;
+  background: var(--color-1);
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+  position: absolute;
+  z-index: 300;
+}
+#activetheme .tick-mark{
+  display: block;
+}
+.theme-1 {
+  background-color: var(--color-1);
+}
+.theme-1::after {
+  background-color: var(--color-2);
+}
+.theme-2 {
+  background-color: pink;
+}
+.theme-2::after {
+  background-color: var(--color-2);
+}
+.theme-3 {
+  background-color: brown;
+}
+.theme-3::after {
+  background-color: var(--color-2);
+}
+.theme-4 {
+  background-color: white;
+}
+.theme-4::after {
+  background-color: var(--color-2);
+}
+.select-box {
   margin: 0;
 }
 
@@ -138,35 +223,35 @@ header div {
 .select-box select option {
   padding: 30px;
 }
-.table-wrapper{
+.table-wrapper {
   overflow-x: auto;
   margin: 0;
   padding: 0;
 }
-.table{
+.table {
   width: 100%;
   margin: 0 0 40px 0;
   min-width: 350px;
 }
-th{
+th {
   padding: 20px;
   background-color: var(--color-2);
   color: var(--color-1);
   text-transform: uppercase;
   border: 2px solid var(--color-1);
 }
-td{
+td {
   text-align: center;
   vertical-align: center;
   padding: 10px;
 }
-tr{
+tr {
   margin: 20px;
   background-color: var(--color-1);
   color: var(--color-2);
 }
 
-td input[type=number]{
+td input[type="number"] {
   height: 40px;
   width: 40px;
   font-size: 20px;
@@ -177,12 +262,12 @@ td input[type=number]{
   color: inherit;
   font-family: inherit;
 }
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-td input[type=text]{
+td input[type="text"] {
   height: 100%;
   width: 100%;
   text-align: center;
@@ -193,9 +278,9 @@ td input[type=text]{
   font-family: inherit;
 }
 
-select{
-width: 100%;
-height: 100%;
+select {
+  width: 100%;
+  height: 100%;
 }
 .close {
   color: var(--color-2);
@@ -210,7 +295,7 @@ height: 100%;
   text-decoration: none;
   cursor: pointer;
 }
-main{
+main {
   height: 500px;
   display: flex;
   flex-direction: column;
@@ -267,7 +352,7 @@ main{
 
   flex-wrap: wrap;
 }
-.other-class-ul li{
+.other-class-ul li {
   padding: 0;
   display: flex;
   justify-content: center;
@@ -279,7 +364,7 @@ main{
   width: 100%;
 }
 
-footer{
+footer {
   color: var(--color-1);
   background-color: var(--color-2);
   text-align: center;
@@ -291,174 +376,173 @@ footer{
   width: 100%;
 }
 
-
-@media screen and (min-width:1400px) {
-  main{
+@media screen and (min-width: 1400px) {
+  main {
     height: 700px;
   }
 }
-@media screen and (max-width:1400px) {
-  main{
+@media screen and (max-width: 1400px) {
+  main {
     height: 520px;
   }
-  .date-day{
-    margin:0;
+  .date-day {
+    margin: 0;
   }
 }
-@media screen and (max-width:1200px) {
-  .settings-content{
+@media screen and (max-width: 1200px) {
+  .settings-content {
     width: 90%;
   }
 }
-@media screen and (max-width:1050px) {
-  .settings-content{
+@media screen and (max-width: 1050px) {
+  .settings-content {
     width: 95%;
   }
 }
-@media screen and (max-width:1000px) {
-  h3{
+@media screen and (max-width: 1000px) {
+  h3 {
     font-size: 30px !important;
   }
-  main{
+  main {
     height: 500px;
   }
-  .other-btn{
+  .other-btn {
     font-size: 15px;
   }
 }
-@media screen and (max-width:750px) {
-  main{
+@media screen and (max-width: 750px) {
+  main {
     height: 550px;
   }
-  .other-class-ul li{
+  .other-class-ul li {
     width: 30%;
     text-align: center;
   }
-  #time-rn{
+  #time-rn {
     font-size: 85px;
   }
 }
-@media screen and (max-width:600px) {
-  h3{
+@media screen and (max-width: 600px) {
+  h3 {
     font-size: 20px !important;
-  }  
+  }
 }
-@media screen and (max-width:570px) {
-  #time-rn{
+@media screen and (max-width: 570px) {
+  #time-rn {
     font-size: 70px;
   }
 }
-@media screen and (max-width:450px) {
-  #timebody tr td:last-child{
+@media screen and (max-width: 450px) {
+  #timebody tr td:last-child {
     width: auto;
   }
-  main{
+  main {
     height: 600px;
   }
-  .date-day{
+  .date-day {
     margin: 10px auto 0;
   }
-  .time-div{
+  .time-div {
     height: auto;
   }
-  #time-rn{
+  #time-rn {
     font-size: 50px;
   }
-  .am-pm{
+  .am-pm {
     font-size: 35px;
   }
-  .current-block{
+  .current-block {
     font-size: 15px;
   }
-  #join-btn-rn{
+  #join-btn-rn {
     font-size: 25px;
   }
-  .other-class-h2{
+  .other-class-h2 {
     font-size: 34px;
   }
-  .other-class-ul li{
+  .other-class-ul li {
     width: 40%;
   }
 }
-@media screen and (max-width:350px) {
-  main{
+@media screen and (max-width: 350px) {
+  main {
     height: 500px;
     margin: 0 0 10px;
   }
   .title-div {
     margin: 0;
   }
-  .date-day{
+  .date-day {
     font-size: 15px;
     margin: 0 auto;
   }
-  #time-rn{
+  #time-rn {
     font-size: 40px;
   }
-  .am-pm{
+  .am-pm {
     font-size: 25px;
   }
-  .other-class-h2{
+  .other-class-h2 {
     font-size: 24px;
   }
-  .other-class-ul li{
+  .other-class-ul li {
     width: 45%;
-  } 
-}
-@media screen and (max-width:310px) {
-  main{
-    height: 600px;
-    margin:0;
   }
-  .other-btn{
+}
+@media screen and (max-width: 310px) {
+  main {
+    height: 600px;
+    margin: 0;
+  }
+  .other-btn {
     font-size: 10px;
   }
   .title-div {
     font-size: 10px;
   }
-  .date-day{
+  .date-day {
     font-size: 10px;
   }
-  #time-rn{
+  #time-rn {
     font-size: 30px;
   }
-  .am-pm{
+  .am-pm {
     font-size: 20px;
   }
-  .current-block{
+  .current-block {
     font-size: 10px;
   }
-  .main-btn{
+  .main-btn {
     margin: 10px 0 0;
   }
-  #join-btn-rn{
+  #join-btn-rn {
     font-size: 20px;
   }
-  .other-class-btn{
+  .other-class-btn {
     margin: 10px;
   }
-  .other-class-h2{
+  .other-class-h2 {
     margin: 0 20px 10px;
     font-size: 15px;
   }
-  .other-class-ul li{
+  .other-class-ul li {
     width: 80%;
-  } 
-  .other-btn{
+  }
+  .other-btn {
     font-size: 16px;
   }
 }
-@media screen and (max-width:250px) {
-  header div img{
+@media screen and (max-width: 250px) {
+  header div img {
     height: 16px;
   }
-  .title-div{
+  .title-div {
     font-size: 8px;
   }
-  #join-btn-rn{
+  #join-btn-rn {
     font-size: 18px;
   }
-  footer{
+  footer {
     font-size: 12px;
   }
 }
