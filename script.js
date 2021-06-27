@@ -1,7 +1,4 @@
 function mainWorker() {
-    // import { dateTimeUpdater } from "./date_time.js";
-    // import { readTimeTable } from "./time_table_reader.js";
-
 
     mainObjreset = {
         "timeTable": {
@@ -42,11 +39,16 @@ function mainWorker() {
     }
     const dayToday = new Date().getDay();
     for (let subject in mainObj.classLink) {
+        let subid;
         if (subject === "CTBlock") {
             subject = "CT Block";
+            subid = "CTBlock";
+        }
+        else{
+            subid = subject;
         }
         htmlToAdd = `<li>
-        <button class="other-btn" id="${subject}-btn">
+        <button class="other-btn" id="${subid}-btn">
             ${subject}
         </button>
         </li>`;
@@ -107,8 +109,8 @@ function mainWorker() {
         }
         const dayToday = new Date().getDay();
         if (checknum === 1) {
-            for (let i = 0; i < mainObj.classLink.length; i++) {
-                const subject = mainObj.classLink[i];
+            for (let i = 0; i < Object.keys(mainObj.classLink).length; i++) {
+                const subject = Object.keys(mainObj.classLink)[i];
                 document.getElementById(subject + "-btn").addEventListener('click', () => {
                     newTab = window.open(mainObj.classLink[subject]);
                     setTimeout(() => { newTab.close(); }, mainObj.timeToCloseTab);
@@ -126,7 +128,6 @@ function mainWorker() {
                     });
                     checknum2++;
                 }
-
                 return classRN;
             }
             else {
