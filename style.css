@@ -22,13 +22,19 @@
 html {
   scroll-behavior: smooth;
 }
+::-webkit-scrollbar {
+  width: 10px; 
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-1);
+}
 button {
   text-decoration: none;
   color: inherit;
   background-color: transparent;
 
   border: 1px solid var(--color-2);
-  /* border-radius: 5px; */
 
   font-family: "New Tegomin", Roboto Mono;
   cursor: pointer;
@@ -114,8 +120,11 @@ header div {
   background-color: var(--color-2);
   padding: 0 5px;
 }
-.settings-content h3:last-child {
+.settings-content h3 {
   margin-top: 20px;
+}
+.settings-content h3:nth-child(2) {
+  margin-top: 0;
 }
 .settings-content h4 {
   font-size: 15px;

@@ -397,7 +397,7 @@ function linkFiller() {
     for (const key in dict) {
         tdata = '';
         const value = dict[key];
-        tdata += `<td>${sno}</td><td><input type="text" value="${key}" style="width:${key.length}ch;"></td><td><input type="text" value="${value}" style="width:${value.length}ch"></td>`;
+        tdata += `<td>${sno}</td><td><input type="text" value="${key}" style="width:${key.length+2}ch;" id="subname-id-${key}" oninput="changeSubName(this);"></td><td><input type="text" value="${value}" style="width:${value.length+2}ch" id="links-id-${key}" oninput="changeLinks(this);"></td>`;
         document.getElementById("linkbody").innerHTML += '<tr>' + tdata + '</tr>';
         sno++;
     }
@@ -508,4 +508,30 @@ function changeTimings(element) {
     }
     newTimeObj.blockStartTimings[blockKey] = parseInt(inputTime);
     localStorage.setItem('mainObj',JSON.stringify(newTimeObj));
+}
+function changeLinks(element) {
+    element.style.width = `${element.value.length+2}ch`;
+    let newLinksObj = JSON.parse(localStorage.getItem('mainObj'));
+    let subjectKey = element.id.split('-')[2];
+    let SubjectLink = element.value;
+    newLinksObj.classLink[subjectKey] = SubjectLink;
+    localStorage.setItem('mainObj',JSON.stringify(newLinksObj));
+}
+function changeSubName(element) {
+    function renameKey(obj,oldKey,newKey) {
+        let cloneObj = obj;
+        cloneObj[newKey] = obj[oldKey];
+        delete cloneObj[oldKey];
+        return cloneObj;
+    }
+    element.style.width = `${element.value.length+2}ch`;
+    let newSubNameObj = JSON.parse(localStorage.getItem('mainObj'));
+    let subjectOldKey = element.id.split('-')[2];
+    let SubjectNewKey = element.value;
+    let tempSubNameObj = renameKey(newSubNameObj.classLink,subjectOldKey,SubjectNewKey);
+    document.getElementById(`links-id-${subjectOldKey}`).id = `links-id-${element.value}`;
+    element.id = `subname-id-${element.value}`;
+    newSubNameObj.classLink = tempSubNameObj;
+    console.log(newSubNameObj);
+    localStorage.setItem('mainObj',JSON.stringify(newSubNameObj));
 }
