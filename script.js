@@ -113,7 +113,7 @@ function mainWorker() {
     function readTimeTable() {
         const classRN = className(blockNum());
         if (classRN != initialClass) {
-            document.getElementById("join-btn-rn").outerHTML = document.getElementById("join-btn-rn").outerHTML;
+            document.getElementById("main-btn").outerHTML = document.getElementById("main-btn").outerHTML;
             initialClass = classRN;
             checknum2 = 1;
         }
