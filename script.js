@@ -318,6 +318,7 @@ function modalFunc() {
 modalFunc();
 
 function nameFiller() {
+    document.getElementById("namebody").innerHTML = '';
     dict = JSON.parse(localStorage.getItem('mainObj')).timeTable;
     function transpose(matrix) {
         const rows = matrix.length, cols = matrix[0].length;
@@ -340,39 +341,36 @@ function nameFiller() {
         tableData[sno - 1].push(`<td >` + sno2 + '</td>');
         sno2++;
     }
-    // for (const key in dict) {
-    //     const classListArr = dict[key];
-    //     if (classListArr != null) {
-    //     }
-    // }
     sno++
     for (const key in dict) {
         const classListArr = dict[key];
-        def_len = classListArr.length;
         for (let i = 0; i < classListArr.length; i++) {
-            const className = classListArr[i];
+            valuesThatHaveComeOnceArr = [];
             tempVar = '';
+            console.log(classListArr);
             for (let j = 0; j < classListArr.length; j++) {
-                const value = classListArr[j];
-                if (value === classListArr[i]) {
-                    if (value === null) {
-                        linkNameArr = JSON.parse(localStorage.getItem('mainObj')).classLink;
-                        tempVar = '';
-                        tempVar += `<option selected value="null" style="width:4ch">Null</option>`;
-                        // for (const key in linkNameArr) {
-                        //     tempVar += `<option value="${key}" style="width:${key.length}ch">${key}</option>`;
+                let value = classListArr[j];
+                if (value === String(classListArr[i])) {
+                        if (!valuesThatHaveComeOnceArr.includes(value)) {
+                            valuesThatHaveComeOnceArr.push(value);
+                            value = String(value);
+                            console.log(value);
+                            tempVar += `<option selected value="${value}" style="width:${value.length}ch">${value}</option>`;
+                        }
+                        // if (!valuesThatHaveComeOnceArr.includes('null')) {
+                        //     value = 'null';
+                        //     valuesThatHaveComeOnceArr.push(value);
+                        //     tempVar += `<option value="${value}" style="width:${value.length}ch">${value}</option>`;
                         // }
-                    }
-                    else {
-                        tempVar += `<option selected value="${value}" style="width:${value.length}ch">${value}</option>`;
-                        tempVar += `<option value="null" style="width:4ch">Null</option>`;
-                    }
                 }
             }
 
             linkNameArr = JSON.parse(localStorage.getItem('mainObj')).classLink;
-            for (const key in linkNameArr) {
-                if (key != classListArr[i]) {
+            for (let key in linkNameArr) {
+                key = String(key);
+                console.log(key);
+                console.log(classListArr);
+                if (key != String(classListArr[i])) {
                     tempVar += `<option value="${key}">${key}</option>`;
                 }
             }
@@ -392,34 +390,20 @@ function nameFiller() {
 
 nameFiller();
 function linkFiller() {
+    document.getElementById("linkbody").innerHTML = '';
     dict = JSON.parse(localStorage.getItem('mainObj')).classLink;
     sno = 1;
     for (const key in dict) {
         tdata = '';
         const value = dict[key];
-        tdata += `<td>${sno}</td><td><input type="text" value="${key}" style="width:${key.length+2}ch;" id="subname-id-${key}" oninput="changeSubName(this);"></td><td><input type="text" value="${value}" style="width:${value.length+2}ch" id="links-id-${key}" oninput="changeLinks(this);"></td>`;
+        tdata += `<td>${sno}</td><td><input type="text" value="${key}" style="width:${key.length+2}ch;min-width:60px;" id="subname-id-${key}" oninput="changeSubName(this);"></td><td><input type="text" value="${value}" style="width:${value.length+2}ch;min-width:400px;" id="links-id-${key}" oninput="changeLinks(this);"></td>`;
         document.getElementById("linkbody").innerHTML += '<tr>' + tdata + '</tr>';
         sno++;
     }
+    document.getElementById("linkbody").innerHTML += '<div class="add-record-btn" onclick="addLinkRecordBtn(this);">+</div>';
 }
 linkFiller();
 function timeFiller() {
-    function convertHours(num) {
-        if (num <= 12) {
-            return num * 1;
-        }
-        else {
-            return num - 12;
-        }
-    }
-    function AMorPM(num) {
-        if (num < 12) {
-            return "AM";
-        }
-        else {
-            return "PM";
-        }
-    }
     function formatTime(number,key) {
         if (number.length === 5) {
             number = '0' + number;
@@ -429,6 +413,7 @@ function timeFiller() {
         hours = number.substring(0, 2);
         return(`<input type="time" value="${hours}:${minutes}:${seconds}" oninput="changeTimings(this);" step=1 id="timings-id-${key}">`);
     }
+    document.getElementById("timebody").innerHTML ='';
     dict = JSON.parse(localStorage.getItem('mainObj')).blockStartTimings;
     sno = 1;
     for (const key in dict) {
@@ -438,6 +423,7 @@ function timeFiller() {
         document.getElementById("timebody").innerHTML += '<tr>' + tdata + '</tr>';
         sno++;
     }
+    document.getElementById("timebody").innerHTML += '<div class="add-record-btn" onclick="addTimeRecordBtn(this);">+</div>';
 }
 timeFiller();
 function ttConfiguration(element) {
@@ -516,6 +502,7 @@ function changeLinks(element) {
     let SubjectLink = element.value;
     newLinksObj.classLink[subjectKey] = SubjectLink;
     localStorage.setItem('mainObj',JSON.stringify(newLinksObj));
+    nameFiller();
 }
 function changeSubName(element) {
     function renameKey(obj,oldKey,newKey) {
@@ -534,4 +521,32 @@ function changeSubName(element) {
     newSubNameObj.classLink = tempSubNameObj;
     console.log(newSubNameObj);
     localStorage.setItem('mainObj',JSON.stringify(newSubNameObj));
+    nameFiller();
+}
+document.getElementById('custom-color-1-span').addEventListener('click',()=> {
+    document.getElementById('custom-color-1').click();
+})
+document.getElementById('custom-color-2-span').addEventListener('click',()=> {
+    document.getElementById('custom-color-2').click();
+})
+function colorChanged(element) {
+    document.getElementById(`${element.id}-span`).style.backgroundColor = element.value;
+    document.getElementsByClassName('color-theme')[3].after.style.backgroundColor = element.value;
+}
+function addLinkRecordBtn(element) {
+    linkObj = JSON.parse(localStorage.getItem('mainObj'));
+    linkObj.classLink[''] = '';
+    localStorage.setItem('mainObj',JSON.stringify(linkObj));
+    linkFiller();
+    nameFiller();
+}
+function addTimeRecordBtn(element) {
+    let timeObj = JSON.parse(localStorage.getItem('mainObj'));
+    timeObj.blockStartTimings[`Block${Object.keys(timeObj.blockStartTimings).length-1}`] = timeObj.blockStartTimings[`Block${Object.keys(timeObj.blockStartTimings).length-2}`];
+    let endTime = timeObj.blockStartTimings.end;
+    delete timeObj.blockStartTimings.end;
+    timeObj.blockStartTimings.end = endTime;
+    localStorage.setItem('mainObj',JSON.stringify(timeObj));
+    timeFiller();
+    nameFiller();
 }

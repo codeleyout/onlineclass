@@ -1,19 +1,16 @@
 .theme-1{
-  --color-1: #f23658;
-  --color-2: #FCCA46;
-}
-.theme-2{
   --color-1: #F0F66E;
   --color-2: #E4572E;
 }
-.theme-3{
+.theme-2{
   --color-1: #206a5d;
   --color-2: #ffcc29;
 }
-.theme-4{
+.theme-3{
   --color-1: #222222;
   --color-2: #dddfcc;
 }
+
 * {
   margin: 0;
   padding: 0;
@@ -197,7 +194,33 @@ header div {
 .color-theme::after {
   background-color: var(--color-2);
 }
-
+.color-theme:last-child{
+  background-color: var(--color-2);
+}
+.color-theme:last-child::after{
+  background-color: var(--color-1);
+}
+.color-theme input[type="color"]{
+  display: none;
+}
+.color-input-span{
+  height: 40%;
+  width: 40%;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 1000;
+  margin: 10%;
+}
+#custom-color-1-span{
+  background-color: var(--color-1);
+  top: 0;
+  right: 0;
+}
+#custom-color-2-span{
+  background-color: var(--color-2);
+  bottom: 0;
+  left: 0;
+}
 select {
   width: auto;
   height: 100%;
@@ -300,6 +323,22 @@ td input[type="text"] {
 .close:focus {
   text-decoration: none;
   cursor: pointer;
+}
+tbody{
+  position: relative;
+}
+.add-record-btn{
+  position: absolute;
+  top: 100%;
+  right: 0;
+  color: var(--color-2);
+  background-color: var(--color-1);
+  width: 2ch;
+  height: 2ch;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1% 0;
 }
 main {
   height: 500px;
