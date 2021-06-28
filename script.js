@@ -1,3 +1,10 @@
+function checkFirstUser() {
+    if (localStorage.getItem("firstTime") === null) {
+        localStorage.clear();
+        localStorage.setItem("firstTime",false)
+    }
+}
+checkFirstUser();
 function globalDt() {
     return new Date();
 }
@@ -490,9 +497,3 @@ function getTheme() {
     document.getElementsByClassName('color-theme')[themeNum-1].id = "activetheme";
 }
 getTheme();
-function checkFirstUser() {
-    if (localStorage.getItem("firstTime") === null) {
-        localStorage.clear();
-        localStorage.setItem("firstTime",false)
-    }
-}
