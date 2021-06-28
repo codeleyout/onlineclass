@@ -397,7 +397,6 @@ function linkFiller() {
     for (const key in dict) {
         tdata = '';
         const value = dict[key];
-        // tdata += '<td>' + sno + '</td>' + '<td>' + key + '</td>' + '<td>' + value + '</td>';
         tdata += `<td>${sno}</td><td><input type="text" value="${key}" style="width:${key.length}ch;"></td><td><input type="text" value="${value}" style="width:${value.length}ch"></td>`;
         document.getElementById("linkbody").innerHTML += '<tr>' + tdata + '</tr>';
         sno++;
@@ -421,20 +420,21 @@ function timeFiller() {
             return "PM";
         }
     }
-    function formatTime(number) {
+    function formatTime(number,key) {
         if (number.length === 5) {
             number = '0' + number;
         }
+        seconds = number.substring(4, 6);
         minutes = number.substring(2, 4);
         hours = number.substring(0, 2);
-        return ('<input type="number" value="' + convertHours(hours) + '"</input>:<input type="number" value="' + minutes + '"</input> ' + AMorPM(hours));
+        return(`<input type="time" value="${hours}:${minutes}:${seconds}" oninput="changeTimings(this);" step=1 id="timings-id-${key}">`);
     }
     dict = JSON.parse(localStorage.getItem('mainObj')).blockStartTimings;
     sno = 1;
     for (const key in dict) {
         tdata = '';
         const value = dict[key];
-        tdata += '<td>' + sno + '</td>' + '<td>' + key + '</td>' + '<td>' + formatTime(value.toString()) + '</td>';
+        tdata += '<td>' + sno + '</td>' + '<td>' + key + '</td>' + '<td>' + formatTime(value.toString(),key) + '</td>';
         document.getElementById("timebody").innerHTML += '<tr>' + tdata + '</tr>';
         sno++;
     }
@@ -497,3 +497,15 @@ function getTheme() {
     document.getElementsByClassName('color-theme')[themeNum-1].id = "activetheme";
 }
 getTheme();
+function changeTimings(element) {
+    let newTimeObj = JSON.parse(localStorage.getItem('mainObj'));
+    let blockKey = element.id.split('-')[2];
+    let tempInputTime = element.value;
+    let inputTimeArr = tempInputTime.split(':');
+    let inputTime = inputTimeArr.join('');
+    if (inputTime.length === 4) {
+        inputTime += '00';
+    }
+    newTimeObj.blockStartTimings[blockKey] = parseInt(inputTime);
+    localStorage.setItem('mainObj',JSON.stringify(newTimeObj));
+}
