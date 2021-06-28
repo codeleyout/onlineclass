@@ -1,18 +1,18 @@
-.t-1:root {
+.theme-1{
+  --color-1: #FBFAF5;
+  --color-2: #a94a4a;
+}
+.theme-2{
+  --color-1: #A63446;
+  --color-2: #CEFF1A;
+}
+.theme-3{
   --color-1: #206a5d;
   --color-2: #ffcc29;
 }
-.t-2:root {
-  --color-1: #34206a;
-  --color-2: #ae8a16;
-}
-.t-3:root {
-  --color-1: #6a2520;
-  --color-2: #5fff29;
-}
-.t-4:root {
-  --color-1: #6a5020;
-  --color-2: #ff29db;
+.theme-4{
+  --color-1: #3d3d3d;
+  --color-2: #FBFAF5;
 }
 * {
   margin: 0;
@@ -78,6 +78,7 @@ header div {
 .logo-img {
   height: 40px;
 }
+
 #settings-modal {
   display: none;
   position: fixed;
@@ -135,7 +136,7 @@ header div {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 .color-theme {
   height: 100px;
@@ -181,28 +182,10 @@ header div {
 #activetheme .tick-mark {
   display: block;
 }
-.theme-1 {
+.color-theme {
   background-color: var(--color-1);
 }
-.theme-1::after {
-  background-color: var(--color-2);
-}
-.theme-2 {
-  background-color: pink;
-}
-.theme-2::after {
-  background-color: var(--color-2);
-}
-.theme-3 {
-  background-color: brown;
-}
-.theme-3::after {
-  background-color: var(--color-2);
-}
-.theme-4 {
-  background-color: white;
-}
-.theme-4::after {
+.color-theme::after {
   background-color: var(--color-2);
 }
 .select-box {

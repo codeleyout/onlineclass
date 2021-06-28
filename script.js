@@ -2,7 +2,7 @@ function globalDt() {
     return new Date();
 }
 function mainWorker() {
-    
+
     window.mainObjreset = {
         "timeTable": {
             "Monday": ["English", "Chemistry", "Physics", "Maths", "Computer"],
@@ -328,7 +328,7 @@ function nameFiller() {
     sno = 1;
     sno2 = 1;
     tableData = [[], [], [], [], [], [], [], []];
-    linkDict = (Object.keys(JSON.parse(localStorage.getItem('mainObj')).blockStartTimings).length-2);
+    linkDict = (Object.keys(JSON.parse(localStorage.getItem('mainObj')).blockStartTimings).length - 2);
     for (let i = 0; i < linkDict; i++) {
         tableData[sno - 1].push(`<td >` + sno2 + '</td>');
         sno2++;
@@ -463,6 +463,30 @@ function ttConfiguration(element) {
     localStorage.setItem('mainObj', JSON.stringify(changedObj));
 }
 function resetEverything() {
-    localStorage.setItem('mainObj',JSON.stringify(window.mainObjreset));
+    localStorage.setItem('mainObj', JSON.stringify(window.mainObjreset));
     location = ".";
 }
+function setTheme(element) {
+    document.getElementById('activetheme').removeAttribute('id');
+    element.id = "activetheme";
+    document.body.classList = [element.classList[1]];
+    let colorObj = {
+        "selectedTheme": element.classList[1]
+    }
+    localStorage.setItem('colorTheme', JSON.stringify(colorObj));
+}
+defColorObj = {
+    "selectedTheme": "theme-1"
+}
+function getTheme() {
+    if (localStorage.getItem('colorTheme') === null) {
+        localStorage.setItem('colorTheme', JSON.stringify(defColorObj));
+    }
+    let localColorObj = JSON.parse(localStorage.getItem('colorTheme'));
+    let selectedTheme = localColorObj.selectedTheme;
+    document.body.classList = [];
+    document.body.classList.add(selectedTheme);
+    let themeNum = parseInt(selectedTheme.split('-')[1]);
+    document.getElementsByClassName('color-theme')[themeNum-1].id = "activetheme";
+}
+getTheme();
