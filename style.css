@@ -257,6 +257,17 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+input[type="time"]{
+  color: inherit;
+  background-color: transparent;
+  border: none;
+  font: inherit;
+  padding: 5px 10px;
+}
+input[type="time"]:focus{
+  outline: none;
+  font: inherit;
+}
 td input[type="text"] {
   height: 100%;
   width: 100%;
