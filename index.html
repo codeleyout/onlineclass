@@ -51,14 +51,17 @@
                     <div class="color-theme theme-3" onclick="setTheme(this);">
                         <div class="tick-mark"></div>
                     </div>
-                    <div class="color-theme theme-4">
+                    <div class="color-theme theme-4" onclick="setTheme(this);">
+                        <div class="tick-mark"></div>
+                    </div>
+                    <!-- <div class="color-theme theme-4">
                         <span id="custom-color-1-span" class="color-input-span">
                             <input type="color" id="custom-color-1" oninput="colorChanged(this);">
                         </span>
                         <span id="custom-color-2-span" class="color-input-span">
                             <input type="color" id="custom-color-2" oninput="colorChanged(this);">
                         </span>
-                    </div>
+                    </div> -->
                 </div>
                 <h3>
                     Time Table
@@ -68,13 +71,13 @@
                         <thead>
                             <tr>
                                 <th scope="col">Block</th>
+                                <th scope="col">Sunday</th>
                                 <th scope="col">Monday</th>
                                 <th scope="col">Tuesday</th>
                                 <th scope="col">Wednesday</th>
                                 <th scope="col">Thursday</th>
                                 <th scope="col">Friday</th>
                                 <th scope="col">Saturday</th>
-                                <th scope="col">Sunday</th>
                             </tr>
                         </thead>
                         <tbody id="namebody" class="text-dark">
@@ -92,7 +95,6 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">S. No.</th>
                                 <th scope="col">Block</th>
                                 <th scope="col">Start Time</th>
                             </tr>

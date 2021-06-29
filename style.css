@@ -10,6 +10,10 @@
   --color-1: #222222;
   --color-2: #dddfcc;
 }
+.theme-4{
+  --color-1: #EBF5EE;
+  --color-2: #F4442E;
+}
 
 * {
   margin: 0;
@@ -194,12 +198,7 @@ header div {
 .color-theme::after {
   background-color: var(--color-2);
 }
-.color-theme:last-child{
-  background-color: var(--color-2);
-}
-.color-theme:last-child::after{
-  background-color: var(--color-1);
-}
+/* 
 .color-theme input[type="color"]{
   display: none;
 }
@@ -220,7 +219,7 @@ header div {
   background-color: var(--color-2);
   bottom: 0;
   left: 0;
-}
+} */
 select {
   width: auto;
   height: 100%;
