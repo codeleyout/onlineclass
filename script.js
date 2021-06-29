@@ -1,36 +1,55 @@
+// window.mainObjreset = {
+//     "timeTable": {
+//         0: [null, null, null, null, null, null],
+//         1: [1,2, 4, 3, 5, 6],
+//         2: [1,2, 4, 3, 5, 6],
+//         3: [1,2, 4, 3, 5, 6],
+//         4: [1,2, 4, 3, 5, 6],
+//         5: [1,4, 2, 3, 5, 6],
+//         6: [null, null, null, null, null, null],
+//     },
+//     "classLink": {
+//         1: ["CTBlock", "https://us04web.zoom.us/j/5556312068?pwd=bHUzSjBZTytoNC9hOEpKUlM0cDNnUT09"],
+//         2: ["English", "https://us04web.zoom.us/j/2642201759?pwd=N2loYnhwWDJTdG5TKzNiUndEQlc0dz09"],
+//         3: ["Physics", "https://us04web.zoom.us/j/5556312068?pwd=bHUzSjBZTytoNC9hOEpKUlM0cDNnUT09"],
+//         4: ["Chemistry", "https://us02web.zoom.us/j/7523800259?pwd=bkxFSS9PRzF4Q1M0VVdvNG9BcG9mQT09"],
+//         5: ["Maths", "https://us04web.zoom.us/j/6224028817?pwd=YnlaYVZYeXgzcU8yQ3poNjJPL0V4Zz09"],
+//         6: ["Computer", "https://us04web.zoom.us/j/5853556094?pwd=i6MWQ9g2m6xaarxCj-4QPwBjuZR6"]
+//     },
+//     "blockStartTimings": {
+//         0: 73000,
+//         1: 85500,
+//         2: 94000,
+//         3: 103000,
+//         4: 112000,
+//         5: 122000,
+//     },
+//     "timeToCloseTab": 10000,
+//     "colorTheme":"theme-1",
+// }
 window.mainObjreset = {
     "timeTable": {
-        0: [null, null, null, null, null, null],
-        1: [1,2, 4, 3, 5, 6],
-        2: [1,2, 4, 3, 5, 6],
-        3: [1,2, 4, 3, 5, 6],
-        4: [1,2, 4, 3, 5, 6],
-        5: [1,4, 2, 3, 5, 6],
-        6: [null, null, null, null, null, null],
+        0: [null],
+        1: [null],
+        2: [null],
+        3: [null],
+        4: [null],
+        5: [null],
+        6: [null],
     },
     "classLink": {
         1: ["CTBlock", "https://us04web.zoom.us/j/5556312068?pwd=bHUzSjBZTytoNC9hOEpKUlM0cDNnUT09"],
-        2: ["English", "https://us04web.zoom.us/j/2642201759?pwd=N2loYnhwWDJTdG5TKzNiUndEQlc0dz09"],
-        3: ["Physics", "https://us04web.zoom.us/j/5556312068?pwd=bHUzSjBZTytoNC9hOEpKUlM0cDNnUT09"],
-        4: ["Chemistry", "https://us02web.zoom.us/j/7523800259?pwd=bkxFSS9PRzF4Q1M0VVdvNG9BcG9mQT09"],
-        5: ["Maths", "https://us04web.zoom.us/j/6224028817?pwd=YnlaYVZYeXgzcU8yQ3poNjJPL0V4Zz09"],
-        6: ["Computer", "https://us04web.zoom.us/j/5853556094?pwd=i6MWQ9g2m6xaarxCj-4QPwBjuZR6"]
     },
     "blockStartTimings": {
         0: 73000,
-        1: 85500,
-        2: 94000,
-        3: 103000,
-        4: 112000,
-        5: 122000,
     },
     "timeToCloseTab": 10000,
     "colorTheme":"theme-1",
 }
 function checkFirstUser() {
-    if (localStorage.getItem("firstTimeUser") === null) {
+    if (localStorage.getItem("firstTimeUser2") === null) {
         localStorage.clear();
-        localStorage.setItem("firstTimeUser", false)
+        localStorage.setItem("firstTimeUser2", false)
     }
 }
 checkFirstUser();

@@ -341,6 +341,7 @@ tbody{
 }
 main {
   height: 500px;
+  min-width:80vw;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
