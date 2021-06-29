@@ -28,9 +28,9 @@ window.mainObjreset = {
     "colorTheme":"theme-1",
 }
 function checkFirstUser() {
-    if (localStorage.getItem("firstTime") === null) {
+    if (localStorage.getItem("firstTimeUser") === null) {
         localStorage.clear();
-        localStorage.setItem("firstTime", false)
+        localStorage.setItem("firstTimeUser", false)
     }
 }
 checkFirstUser();
