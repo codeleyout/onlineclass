@@ -13,6 +13,7 @@ if (templateAsURL != null) {
     if (localStorage.getItem('mainObj') != null) {
         if (compareKeys(output,JSON.parse(localStorage.getItem('mainObj')))) {
             localStorage.setItem('mainObj',JSON.stringify(output));
+            location = '.';
         }
     }
 }
