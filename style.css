@@ -327,12 +327,9 @@ tbody{
   position: relative;
 }
 .add-record-btn{
-  position: absolute;
-  top: 100%;
-  right: 0;
   color: var(--color-2);
   background-color: var(--color-1);
-  width: 2ch;
+  width: 100%;
   height: 2ch;
   display: flex;
   justify-content: center;

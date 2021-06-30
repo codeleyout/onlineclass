@@ -27,32 +27,25 @@
 //     "timeToCloseTab": 10000,
 //     "colorTheme":"theme-1",
 // }
-window.mainObjreset = {
-    "timeTable": {
-        0: [null],
-        1: [null],
-        2: [null],
-        3: [null],
-        4: [null],
-        5: [null],
-        6: [null],
-    },
-    "classLink": {
-        1: ["CTBlock", "https://us04web.zoom.us/j/5556312068?pwd=bHUzSjBZTytoNC9hOEpKUlM0cDNnUT09"],
-    },
-    "blockStartTimings": {
-        0: 73000,
-    },
-    "timeToCloseTab": 10000,
-    "colorTheme":"theme-1",
-}
-function checkFirstUser() {
-    if (localStorage.getItem("firstTimeUser2") === null) {
-        localStorage.clear();
-        localStorage.setItem("firstTimeUser2", false)
-    }
-}
-checkFirstUser();
+// window.mainObjreset = {
+//     "timeTable": {
+//         0: [null],
+//         1: [null],
+//         2: [null],
+//         3: [null],
+//         4: [null],
+//         5: [null],
+//         6: [null],
+//     },
+//     "classLink": {
+//         1: ["CTBlock", "https://us04web.zoom.us/j/5556312068?pwd=bHUzSjBZTytoNC9hOEpKUlM0cDNnUT09"],
+//     },
+//     "blockStartTimings": {
+//         0: 73000,
+//     },
+//     "timeToCloseTab": 10000,
+//     "colorTheme":"theme-1",
+// }
 function globalDt() {
     return new Date();
 }
@@ -305,7 +298,6 @@ function timeFiller() {
         tdata += `<td>Block ${parseInt(key)+1}</td><td>${formatTime(value.toString(), key)}</td>`;
         document.getElementById("timebody").innerHTML += `<tr>${tdata}</tr>`;
     }
-    document.getElementById("timebody").innerHTML += '<div class="add-record-btn" onclick="addTimeRecordBtn(this);">+</div>';
 }
 timeFiller();
 function linkFiller() {
@@ -322,7 +314,6 @@ function linkFiller() {
         document.getElementById("linkbody").innerHTML += `<tr>${tdata}</tr>`;
         sno++;
     }
-    document.getElementById("linkbody").innerHTML += '<div class="add-record-btn" onclick="addLinkRecordBtn(this);">+</div>';
 }
 linkFiller();
 function ttConfiguration(element) {
@@ -338,26 +329,8 @@ function resetEverything() {
     localStorage.clear();
     location = ".";
 }
-function setTheme(element) {
-    document.getElementById('activetheme').removeAttribute('id');
-    element.id = "activetheme";
-    document.body.classList = [element.classList[1]];
 
-    let changedMainObj = mainObj;
-    changedMainObj.colorTheme = element.classList[1];
-    localStorage.setItem('mainObj', JSON.stringify(changedMainObj));
-}
-
-function getTheme() {
-    let localColorObj = JSON.parse(localStorage.getItem('mainObj')).colorTheme;
-    let selectedTheme = localColorObj;
-    document.body.classList = [];
-    document.body.classList.add(selectedTheme);
-    let themeNum = parseInt(selectedTheme.split('-')[1]);
-    document.getElementsByClassName('color-theme')[themeNum - 1].id = "activetheme";
-}
-getTheme();
-function changeTimings(element,sentByAddBlock=false) {
+function changeTimings(element) {
     let newTimeObj = JSON.parse(localStorage.getItem('mainObj'));
     let blockKey = element.id.split('-')[2];
     let tempInputTime = element.value;
