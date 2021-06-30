@@ -24,7 +24,7 @@ function checkFirstUser() {
     if (templateAsURL === null) {
         if (localStorage.getItem("firstVisit") === null) {
             localStorage.clear();
-            location = '/getting-started';
+            location = './getting-started';
             localStorage.setItem("firstVisit", false);
             localStorage.setItem("mainObj", JSON.stringify(mainObjreset));
         }
