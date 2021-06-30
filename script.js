@@ -59,25 +59,30 @@ function checkMainObj() {
 checkMainObj();
 function mainWorker() {
 
-    // let mainObj = JSON.parse(localStorage.getItem('mainObj'));
+    let mainObj = JSON.parse(localStorage.getItem('mainObj'));
 
-    document.getElementById("other-class-ul").innerHTML = '';
-    for (let sub in mainObj.classLink) {
-        let subject = mainObj.classLink[sub][0];
-        let subid = subject;
-        htmlToAdd = `<li>
-        <button class="other-btn" id="${subid}-btn">
+    function otherClassBtn() {
+        let mainObj = JSON.parse(localStorage.getItem('mainObj'));
+        document.getElementById("other-class-ul").innerHTML = '';
+        for (let sub in mainObj.classLink) {
+            let subject = mainObj.classLink[sub][0];
+            let subid = subject;
+            htmlToAdd = `<li>
+            <button class="other-btn" id="${subid}-btn">
             ${subject}
-        </button>
+            </button>
         </li>`;
-        document.getElementById("other-class-ul").innerHTML += htmlToAdd;
+            document.getElementById("other-class-ul").innerHTML += htmlToAdd;
 
+        }
     }
+    otherClassBtn();
     function timeAsNum(hours, minutes, seconds) {
         return hours * 10000 + minutes * 100 + seconds;
     }
 
     function blockNum() {
+        let mainObj = JSON.parse(localStorage.getItem('mainObj'));
         const secondsNow = globalDt().getSeconds();
         const minutesNow = globalDt().getMinutes();
         const hoursNow = globalDt().getHours();
@@ -88,6 +93,9 @@ function mainWorker() {
         for (const key in blockObj) {
             blockArr.push(blockObj[key]);
         }
+        let endBlockTime = mainObj.endTiming;
+        blockArr.push(parseInt(endBlockTime));
+
         for (let i = 0; i < blockArr.length; i++) {
             if (currentTime >= blockArr[i] && currentTime < blockArr[i + 1]) {
                 return i;
@@ -96,10 +104,11 @@ function mainWorker() {
         return -1;
     }
     function className(num) {
-        if (num === -1) {
+        let mainObj = JSON.parse(localStorage.getItem('mainObj'));
+        const dayToday = globalDt().getDay();
+        if (num === -1 || mainObj.timeTable[dayToday][num] === null|| mainObj.timeTable[dayToday][num] === "null") {
             return "No Class Right Now";
         }
-        const dayToday = globalDt().getDay();
         let nameOfClass = mainObj.classLink[mainObj.timeTable[dayToday][num]][0];
         return nameOfClass;
     }
@@ -108,6 +117,7 @@ function mainWorker() {
     let checknum2 = 1;
 
     function readTimeTable() {
+        let mainObj = JSON.parse(localStorage.getItem('mainObj'));
         const classRN = className(blockNum());
         if (classRN != initialClass) {
             document.getElementById("main-btn").outerHTML = document.getElementById("main-btn").outerHTML;
@@ -130,12 +140,15 @@ function mainWorker() {
             const dayToday = globalDt().getDay();
             let linkOfClass;
             if (blockNum() != -1) {
-                linkOfClass = mainObj.classLink[mainObj.timeTable[dayToday][blockNum()]][1];
-                document.getElementById("main-btn").addEventListener('click', () => {
-                    newTab = window.open(linkOfClass);
-                setTimeout(() => { newTab.close(); }, mainObj.timeToCloseTab);
-            });
-        }
+                if (mainObj.timeTable[dayToday][blockNum()] != null && mainObj.timeTable[dayToday][blockNum()] != "null") {
+                    document.getElementById("main-btn").outerHTML = document.getElementById("main-btn").outerHTML;
+                    linkOfClass = mainObj.classLink[mainObj.timeTable[dayToday][blockNum()]][1];
+                    document.getElementById("main-btn").addEventListener('click', () => {
+                        newTab = window.open(linkOfClass);
+                        setTimeout(() => { newTab.close(); }, mainObj.timeToCloseTab);
+                    });
+                }
+            }
             checknum2++;
         }
         return classRN;
@@ -161,15 +174,17 @@ function mainWorker() {
         const date = dateObj.toLocaleString('default', { day: 'numeric' });
         const month = dateObj.toLocaleString('default', { month: 'long' });
         const year = dateObj.toLocaleString('default', { year: 'numeric' });
-        let timeStr = dateObj.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric',second: 'numeric', hour12: true });
-        let am_pm = timeStr.substring(timeStr.length-2,timeStr.length);
-        timeStr = timeStr.substring(0,timeStr.length-3);
+        let timeStr = dateObj.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
+        let am_pm = timeStr.substring(timeStr.length - 2, timeStr.length);
+        timeStr = timeStr.substring(0, timeStr.length - 3);
+        if (timeStr.length === 7) {
+            timeStr = `0${timeStr}`;
+        }
 
 
         document.getElementById('day-rn').innerText = day;
-        document.getElementById('date-rn').innerHTML =`${month} ${date}<sup>${superscriptDay(date)}</sup>,${year}`;
+        document.getElementById('date-rn').innerHTML = `${month} ${date}<sup>${superscriptDay(date)}</sup>,${year}`;
         document.getElementById('time-rn').innerHTML = `${timeStr}<a class='am-pm'>${am_pm}</a>`;
-        //TODO: ADD update time var to mainobj instead of hard coding
         setTimeout(() => { dateTimeUpdater(); }, mainObj.timeToWaitBeforeUpdating);
     }
     function mainFunction() {
@@ -185,26 +200,26 @@ function mainWorker() {
 mainWorker();
 
 function modalFunc() {
-    var modal = document.getElementById("settings-modal");
+    var settingsModal = document.getElementById("settings-modal");
 
-    var btn = document.getElementById("settings");
+    var settingsBtn = document.getElementById("settings");
     var span = document.getElementsByClassName("close")[0];
 
-    btn.onclick = function () {
-        modal.style.display = "block";
+    settingsBtn.onclick = function () {
+        settingsModal.style.display = "block";
     }
 
     span.onclick = function () {
-        modal.style.display = "none";
+        settingsModal.style.display = "none";
     }
     document.onkeydown = function (event) {
         if (event.keyCode == 27) {
-            modal.style.display = "none";
+            settingsModal.style.display = "none";
         }
     }
     window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+        if (event.target == settingsModal) {
+            settingsModal.style.display = "none";
         }
     }
 }
@@ -243,7 +258,7 @@ function nameFiller() {
             value = classListArr[i];
             nameValue = String(value);
             if (nameValue != "null") {
-                nameValue =mainObj.classLink[value][0];
+                nameValue = mainObj.classLink[value][0];
             }
             tempVar += `<option selected value="${value}" style="width:${nameValue.length}ch">${nameValue}</option>`;
             tableData[sno - 1].push(`<td><div class="select-box"><select class="form-control target-select" name="${sno - 1}-${i}" id="${sno - 1}-${i}" onchange="ttConfiguration(this)">
@@ -263,20 +278,25 @@ function nameFiller() {
     for (let i = 0; i < targetElements.length; i++) {
         const currentTargetElement = targetElements[i];
         for (const key in mainObj.classLink) {
-            if (key != currentTargetElement.value) {   
+            if (key != currentTargetElement.value) {
                 nameOfSub = mainObj.classLink[key][0];
                 currentTargetElement.innerHTML += `<option value="${key}">${nameOfSub}</option>`;
             }
+            else {
+                if (currentTargetElement.value != "null") {
+                    currentTargetElement.innerHTML += `<option value="null">null</option>`;
+                }
+            }
         }
     }
-    if ((sno2-1) != mainObj.timeTable["0"].length) {
-        console.log('yes');
+    if ((sno2 - 1) != mainObj.timeTable["0"].length) {
         for (const key in mainObj.timeTable) {
             mainObj.timeTable[key].push(null);
         }
-        localStorage.setItem('mainObj',JSON.stringify(mainObj));
+        localStorage.setItem('mainObj', JSON.stringify(mainObj));
         nameFiller();
     }
+    mainWorker();
 }
 
 nameFiller();
@@ -290,14 +310,31 @@ function timeFiller() {
         hours = number.substring(0, 2);
         return (`<input type="time" value="${hours}:${minutes}:${seconds}" oninput="changeTimings(this);" step=1 id="timings-id-${key}">`);
     }
+    function formatLastTime(number, key) {
+        if (number.length === 5) {
+            number = '0' + number;
+        }
+        seconds = number.substring(4, 6);
+        minutes = number.substring(2, 4);
+        hours = number.substring(0, 2);
+        let increasedHours = (parseInt(hours)+1).toString();
+        if (increasedHours.length === 1) {
+            increasedHours = '0' + increasedHours;
+        }
+        return (`${increasedHours}:${minutes}:${seconds}`);
+    }
     document.getElementById("timebody").innerHTML = '';
     dict = JSON.parse(localStorage.getItem('mainObj')).blockStartTimings;
+    let lastTime;
     for (const key in dict) {
-        tdata = '';
+        let tdata = '';
         const value = dict[key];
-        tdata += `<td>Block ${parseInt(key)+1}</td><td>${formatTime(value.toString(), key)}</td>`;
+        tdata += `<td>Block ${parseInt(key) + 1}</td><td>${formatTime(value.toString(), key)}</td>`;
         document.getElementById("timebody").innerHTML += `<tr>${tdata}</tr>`;
+        lastTime = formatLastTime(value.toString(), key);
     }
+    tdata = `<td>End Time</td><td><input type="time" value="${lastTime}" oninput="changeEndTime(this);" step=1 id="end-time")</td>`;
+    document.getElementById("timebody").innerHTML += `<tr>${tdata}</tr>`;
 }
 timeFiller();
 function linkFiller() {
@@ -322,7 +359,7 @@ function ttConfiguration(element) {
     let blockNo = element.id.split('-')[1];
     let changedObj = mainObj;
 
-    changedObj.timeTable[dayNo-1][blockNo] = element.value;
+    changedObj.timeTable[dayNo - 1][blockNo] = element.value;
     localStorage.setItem('mainObj', JSON.stringify(changedObj));
 }
 function resetEverything() {
@@ -349,9 +386,9 @@ function changeLinks(element) {
     let subjectKey = element.id.split('-')[2];
     let SubjectLink = element.value;
     if (!(subjectKey in newLinksObj.classLink)) {
-        newLinksObj.classLink[subjectKey] = ["",""]
+        newLinksObj.classLink[subjectKey] = ["", ""]
     }
-    newLinksObj.classLink[subjectKey] = [newLinksObj.classLink[subjectKey][0],SubjectLink];
+    newLinksObj.classLink[subjectKey] = [newLinksObj.classLink[subjectKey][0], SubjectLink];
     localStorage.setItem('mainObj', JSON.stringify(newLinksObj));
     nameFiller();
 }
@@ -362,29 +399,29 @@ function changeSubName(element) {
     if (subjectOldKey in newSubNameObj.classLink) {
         newSubNameObj.classLink[subjectOldKey][0] = element.value;
     }
-    else{
-        newSubNameObj.classLink[subjectOldKey] = [element.value,""];
+    else {
+        newSubNameObj.classLink[subjectOldKey] = [element.value, ""];
     }
     localStorage.setItem('mainObj', JSON.stringify(newSubNameObj));
     nameFiller();
 }
 // document.getElementById('custom-color-1-span').addEventListener('click', () => {
-    //     document.getElementById('custom-color-1').click();
+//     document.getElementById('custom-color-1').click();
 // })
 // document.getElementById('custom-color-2-span').addEventListener('click', () => {
 //     document.getElementById('custom-color-2').click();
 // })
 // function colorChanged(element) {
-    //     document.getElementById(`${element.id}-span`).style.backgroundColor = element.value;
+//     document.getElementById(`${element.id}-span`).style.backgroundColor = element.value;
 //     document.getElementsByClassName('color-theme')[3].after.style.backgroundColor = element.value;
 // }
 function addLinkRecordBtn(element) {
     linkFiller();
     mainObj = JSON.parse(localStorage.getItem('mainObj'));
-    sno = Object.keys(mainObj.classLink).length+1;
+    sno = Object.keys(mainObj.classLink).length + 1;
     // if (document.getElementById(`links-id-${sno}`) === null) {
-        console.log(mainObj.classLink[sno-1]);
-        if (mainObj.classLink[sno] === undefined && document.getElementById(`links-id-${sno}`) === null ){
+    console.log(mainObj.classLink[sno - 1]);
+    if (mainObj.classLink[sno] === undefined && document.getElementById(`links-id-${sno}`) === null) {
         let tdata = `<td>${sno}</td><td><input type="text" style="min-width:60px;" id="subname-id-${sno}" oninput="changeSubName(this);"></td><td><input type="text" style="min-width:400px;" id="links-id-${sno}" oninput="changeLinks(this);"></td>`;
         document.getElementById("linkbody").innerHTML += `<tr>${tdata}</tr>`;
     }
@@ -393,9 +430,26 @@ function addTimeRecordBtn(element) {
     timeFiller();
     mainObj = JSON.parse(localStorage.getItem('mainObj'));
     sno = Object.keys(mainObj.blockStartTimings).length;
-    
+
     if (document.getElementById(`timings-id-${sno}`) === null) {
-        let tdata = `<td>Block ${parseInt(sno)+1}</td><td><input type="time" value="${document.getElementById(`timings-id-${sno-1}`).value}" oninput="changeTimings(this);" step=1 id="timings-id-${sno}"></td>`;
+        let tdata = `<td>Block ${parseInt(sno) + 1}</td><td><input type="time" value="${document.getElementById(`timings-id-${sno - 1}`).value}" oninput="changeTimings(this);" step=1 id="timings-id-${sno}"></td>`;
         document.getElementById("timebody").innerHTML += `<tr>${tdata}</tr>`;
     }
+    let lastTime = document.getElementById('end-time').value;
+    document.getElementById('end-time').parentElement.parentElement.remove();
+    let tdata = `<td>End Time</td><td><input type="time" value="${lastTime}" oninput="changeEndTime(this);" step=1 id="end-time")</td>`;
+    document.getElementById("timebody").innerHTML += `<tr>${tdata}</tr>`;
+}
+function changeEndTime(element) {
+    let newTimeObj = JSON.parse(localStorage.getItem('mainObj'));
+    // let blockKey = element.id.split('-')[2];
+    let tempInputTime = element.value;
+    let inputTimeArr = tempInputTime.split(':');
+    let inputTime = inputTimeArr.join('');
+    if (inputTime.length === 4) {
+        inputTime += '00';
+    }
+    newTimeObj.endTiming = inputTime;
+    localStorage.setItem('mainObj', JSON.stringify(newTimeObj));
+    nameFiller();
 }

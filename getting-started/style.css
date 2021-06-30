@@ -95,7 +95,7 @@ p {
   text-align: center;
 }
 footer a{
-  padding: 5px;
+  padding: 0 5px;
   color: var(--color-2);
   background-color: var(--color-1);
 

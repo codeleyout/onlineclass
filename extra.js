@@ -16,22 +16,24 @@ window.mainObjreset = {
     },
     "timeToCloseTab": 10000,
     "colorTheme": "theme-1",
+    "endTiming":140000,
+    "timeToWaitBeforeUpdating":500,
 }
 function checkFirstUser() {
     let url_string = window.location.href
     let url = new URL(url_string);
     let templateAsURL = url.searchParams.get("temp");
     if (templateAsURL === null) {
-        if (localStorage.getItem("firstVisit") === null) {
+        if (localStorage.getItem("newVisit") === null) {
             localStorage.clear();
             location = './getting-started';
-            localStorage.setItem("firstVisit", false);
+            localStorage.setItem("newVisit", false);
             localStorage.setItem("mainObj", JSON.stringify(mainObjreset));
         }
     }
     else{
         localStorage.setItem("mainObj", JSON.stringify(mainObjreset));
-        localStorage.setItem("firstVisit", false);
+        localStorage.setItem("newVisit", false);
     }
 }
 checkFirstUser();
