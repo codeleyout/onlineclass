@@ -26,3 +26,7 @@ function compareKeys(a, b) {
     var bKeys = Object.keys(b).sort();
     return JSON.stringify(aKeys) === JSON.stringify(bKeys);
   }
+
+function shareWhatsapp() {
+    window.open(`//wa.me/?text=Hi!%20I%20am%20using%20Online%20Classes%20App%20To%20Manage%20my%20Online%20Classes.%20It%20is%20easy%20to%20use%20and%20fast.%0ATry%20it%20out.%20Use%20this%20link%20below%20to%20import%20my%20time%20table%20as%20a%20template.%0ALink%20-%20${location.origin}${location.pathname}?temp=${localStorage.getItem('mainObj')}`);
+}
