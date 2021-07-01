@@ -310,31 +310,57 @@ function timeFiller() {
         hours = number.substring(0, 2);
         return (`<input type="time" value="${hours}:${minutes}:${seconds}" oninput="changeTimings(this);" step=1 id="timings-id-${key}">`);
     }
-    function formatLastTime(number, key) {
+    function formatLastTime(number) {
         if (number.length === 5) {
             number = '0' + number;
         }
         seconds = number.substring(4, 6);
         minutes = number.substring(2, 4);
         hours = number.substring(0, 2);
-        let increasedHours = (parseInt(hours)+1).toString();
+        let increasedHours = (parseInt(hours)).toString();
         if (increasedHours.length === 1) {
             increasedHours = '0' + increasedHours;
         }
         return (`${increasedHours}:${minutes}:${seconds}`);
     }
     document.getElementById("timebody").innerHTML = '';
-    dict = JSON.parse(localStorage.getItem('mainObj')).blockStartTimings;
+    let mainObj = JSON.parse(localStorage.getItem('mainObj'));
+    let dict = mainObj.blockStartTimings;
+    
+    let lastValue;
     let lastTime;
     for (const key in dict) {
         let tdata = '';
         const value = dict[key];
         tdata += `<td>Block ${parseInt(key) + 1}</td><td>${formatTime(value.toString(), key)}</td>`;
         document.getElementById("timebody").innerHTML += `<tr>${tdata}</tr>`;
-        lastTime = formatLastTime(value.toString(), key);
+        lastValue = value;
+        lastTime = formatLastTime(value.toString());
     }
-    tdata = `<td>End Time</td><td><input type="time" value="${lastTime}" oninput="changeEndTime(this);" step=1 id="end-time")</td>`;
-    document.getElementById("timebody").innerHTML += `<tr>${tdata}</tr>`;
+    if (mainObj.endTiming != null) {
+        if (mainObj.endTiming > lastValue) {   
+            tdata = `<td>End Time</td><td><input type="time" value="${formatLastTime(mainObj.endTiming.toString())}" oninput="changeEndTime(this);" step=1 id="end-time")</td>`;
+            document.getElementById("timebody").innerHTML += `<tr>${tdata}</tr>`;
+            console.log('if');
+        }
+        else{
+            tdata = `<td>End Time</td><td><input type="time" value="${lastTime}" oninput="changeEndTime(this);" step=1 id="end-time")</td>`;
+            document.getElementById("timebody").innerHTML += `<tr>${tdata}</tr>`;
+            mainObj.endTiming = lastValue+10000;
+            console.log('else');
+            localStorage.setItem('mainObj',JSON.stringify(mainObj));
+            timeFiller();
+        }
+    }
+    else{
+        tdata = `<td>End Time</td><td><input type="time" value="${lastTime}" oninput="changeEndTime(this);" step=1 id="end-time")</td>`;
+        document.getElementById("timebody").innerHTML += `<tr>${tdata}</tr>`;
+        mainObj.endTiming = lastValue+10000;
+        console.log('else');
+        localStorage.setItem('mainObj',JSON.stringify(mainObj));
+        timeFiller();
+    }
+    
 }
 timeFiller();
 function linkFiller() {

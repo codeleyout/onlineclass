@@ -16,7 +16,7 @@ window.mainObjreset = {
     },
     "timeToCloseTab": 10000,
     "colorTheme": "theme-1",
-    "endTiming":140000,
+    "endTiming":null,
     "timeToWaitBeforeUpdating":500,
 }
 function checkFirstUser() {
