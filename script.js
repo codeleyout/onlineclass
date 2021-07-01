@@ -341,13 +341,11 @@ function timeFiller() {
         if (mainObj.endTiming > lastValue) {   
             tdata = `<td>End Time</td><td><input type="time" value="${formatLastTime(mainObj.endTiming.toString())}" oninput="changeEndTime(this);" step=1 id="end-time")</td>`;
             document.getElementById("timebody").innerHTML += `<tr>${tdata}</tr>`;
-            console.log('if');
         }
         else{
             tdata = `<td>End Time</td><td><input type="time" value="${lastTime}" oninput="changeEndTime(this);" step=1 id="end-time")</td>`;
             document.getElementById("timebody").innerHTML += `<tr>${tdata}</tr>`;
             mainObj.endTiming = lastValue+10000;
-            console.log('else');
             localStorage.setItem('mainObj',JSON.stringify(mainObj));
             timeFiller();
         }
@@ -356,7 +354,7 @@ function timeFiller() {
         tdata = `<td>End Time</td><td><input type="time" value="${lastTime}" oninput="changeEndTime(this);" step=1 id="end-time")</td>`;
         document.getElementById("timebody").innerHTML += `<tr>${tdata}</tr>`;
         mainObj.endTiming = lastValue+10000;
-        console.log('else');
+        // console.log('else');
         localStorage.setItem('mainObj',JSON.stringify(mainObj));
         timeFiller();
     }
@@ -446,7 +444,7 @@ function addLinkRecordBtn(element) {
     mainObj = JSON.parse(localStorage.getItem('mainObj'));
     sno = Object.keys(mainObj.classLink).length + 1;
     // if (document.getElementById(`links-id-${sno}`) === null) {
-    console.log(mainObj.classLink[sno - 1]);
+    // console.log(mainObj.classLink[sno - 1]);
     if (mainObj.classLink[sno] === undefined && document.getElementById(`links-id-${sno}`) === null) {
         let tdata = `<td>${sno}</td><td><input type="text" style="min-width:60px;" id="subname-id-${sno}" oninput="changeSubName(this);"></td><td><input type="text" style="min-width:400px;" id="links-id-${sno}" oninput="changeLinks(this);"></td>`;
         document.getElementById("linkbody").innerHTML += `<tr>${tdata}</tr>`;
