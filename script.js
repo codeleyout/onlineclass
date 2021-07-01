@@ -207,20 +207,33 @@ function modalFunc() {
 
     settingsBtn.onclick = function () {
         settingsModal.style.display = "block";
+        location.hash = '';
     }
-
+    
     span.onclick = function () {
         settingsModal.style.display = "none";
+        location.hash = '';
     }
     document.onkeydown = function (event) {
         if (event.keyCode == 27) {
             settingsModal.style.display = "none";
+            location.hash = '';
         }
     }
     window.onclick = function (event) {
         if (event.target == settingsModal) {
             settingsModal.style.display = "none";
+            location.hash = '';
         }
+    }
+    location.lastHash = '';
+    window.onhashchange = function () {
+        if (location.lastHash === "#settings") {
+            if (location.hash === '') {
+                settingsModal.style.display = "none";
+            }
+        }
+        location.lastHash = location.hash;
     }
 }
 modalFunc();
