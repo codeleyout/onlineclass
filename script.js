@@ -370,6 +370,11 @@ function timeFiller() {
         localStorage.setItem('mainObj', JSON.stringify(mainObj));
         timeFiller();
     }
+    if (mainObj.endTiming.toString().length > 6) {
+        mainObj.endTiming = null;
+        localStorage.setItem('mainObj',JSON.stringify(mainObj));
+        timeFiller();
+    }
 
 }
 timeFiller();
