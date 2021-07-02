@@ -106,7 +106,7 @@ function mainWorker() {
     function className(num) {
         let mainObj = JSON.parse(localStorage.getItem('mainObj'));
         const dayToday = globalDt().getDay();
-        if (num === -1 || mainObj.timeTable[dayToday][num] === null|| mainObj.timeTable[dayToday][num] === "null") {
+        if (num === -1 || mainObj.timeTable[dayToday][num] === null || mainObj.timeTable[dayToday][num] === "null") {
             return "No Class Right Now";
         }
         let nameOfClass = mainObj.classLink[mainObj.timeTable[dayToday][num]][0];
@@ -209,7 +209,7 @@ function modalFunc() {
         settingsModal.style.display = "block";
         location.hash = '';
     }
-    
+
     span.onclick = function () {
         settingsModal.style.display = "none";
         location.hash = '';
@@ -339,39 +339,38 @@ function timeFiller() {
     document.getElementById("timebody").innerHTML = '';
     let mainObj = JSON.parse(localStorage.getItem('mainObj'));
     let dict = mainObj.blockStartTimings;
-    
+
     let lastValue;
     let lastTime;
     for (const key in dict) {
         let tdata = '';
         const value = dict[key];
-        tdata += `<td>Block ${parseInt(key) + 1}</td><td>${formatTime(value.toString(), key)}</td>`;
+        tdata += `<td><button class="remove-record" onclick="removeBlockTimeRecord(this);">Remove</button> Block ${parseInt(key) + 1}</td><td>${formatTime(value.toString(), key)}</td>`;
         document.getElementById("timebody").innerHTML += `<tr>${tdata}</tr>`;
         lastValue = value;
         lastTime = formatLastTime(value.toString());
     }
     if (mainObj.endTiming != null) {
-        if (mainObj.endTiming > lastValue) {   
-            tdata = `<td>End Time</td><td><input type="time" value="${formatLastTime(mainObj.endTiming.toString())}" oninput="changeEndTime(this);" step=1 id="end-time")</td>`;
+        if (mainObj.endTiming > lastValue) {
+            tdata = `<td>End Time</td><td><input type="time" value="${formatLastTime(mainObj.endTiming.toString())}" oninput="changeEndTime(this);" step=1 id="end-time"></td>`;
             document.getElementById("timebody").innerHTML += `<tr>${tdata}</tr>`;
         }
-        else{
-            tdata = `<td>End Time</td><td><input type="time" value="${lastTime}" oninput="changeEndTime(this);" step=1 id="end-time")</td>`;
+        else {
+            tdata = `<td>End Time</td><td><input type="time" value="${lastTime}" oninput="changeEndTime(this);" step=1 id="end-time"></td>`;
             document.getElementById("timebody").innerHTML += `<tr>${tdata}</tr>`;
-            mainObj.endTiming = lastValue+10000;
-            localStorage.setItem('mainObj',JSON.stringify(mainObj));
+            mainObj.endTiming = parseInt(lastValue) + 10000;
+            localStorage.setItem('mainObj', JSON.stringify(mainObj));
             timeFiller();
         }
     }
-    else{
-        tdata = `<td>End Time</td><td><input type="time" value="${lastTime}" oninput="changeEndTime(this);" step=1 id="end-time")</td>`;
+    else {
+        tdata = `<td>End Time</td><td><input type="time" value="${lastTime}" oninput="changeEndTime(this);" step=1 id="end-time"></td>`;
         document.getElementById("timebody").innerHTML += `<tr>${tdata}</tr>`;
-        mainObj.endTiming = lastValue+10000;
-        // console.log('else');
-        localStorage.setItem('mainObj',JSON.stringify(mainObj));
+        mainObj.endTiming = parseInt(lastValue) + 10000;
+        localStorage.setItem('mainObj', JSON.stringify(mainObj));
         timeFiller();
     }
-    
+
 }
 timeFiller();
 function linkFiller() {
@@ -384,7 +383,7 @@ function linkFiller() {
         const value = dict[key];
         let subNameFromKey = mainObj.classLink[key][0];
         let linkNameFromKey = mainObj.classLink[key][1];
-        tdata += `<td>${sno}</td><td><input type="text" value="${subNameFromKey}" style="width:${subNameFromKey.length + 2}ch;min-width:60px;" id="subname-id-${key}" oninput="changeSubName(this);"></td><td><input type="text" value="${linkNameFromKey}" style="width:${linkNameFromKey.length + 2}ch;min-width:400px;" id="links-id-${key}" oninput="changeLinks(this);"></td>`;
+        tdata += `<td><button class="remove-record" onclick="removeLinkRecord(this);">Remove</button> ${sno}</td><td><input type="text" value="${subNameFromKey}" style="width:${subNameFromKey.length + 2}ch;min-width:60px;" id="subname-id-${key}" oninput="changeSubName(this);"></td><td><input type="text" value="${linkNameFromKey}" style="width:${linkNameFromKey.length + 2}ch;min-width:400px;" id="links-id-${key}" oninput="changeLinks(this);"></td>`;
         document.getElementById("linkbody").innerHTML += `<tr>${tdata}</tr>`;
         sno++;
     }
@@ -489,4 +488,69 @@ function changeEndTime(element) {
     newTimeObj.endTiming = inputTime;
     localStorage.setItem('mainObj', JSON.stringify(newTimeObj));
     nameFiller();
+}
+function removeBlockTimeRecord(element) {
+    let blockTimingObjId = element.parentElement.parentElement.children[1].firstChild.id.split('-')[2];
+    let mainObjClone = JSON.parse(localStorage.getItem('mainObj'));
+    let blockDict = mainObjClone.blockStartTimings;
+    if(Object.keys(blockDict).length === 1){
+        return void 0;
+    }
+    for (const key in blockDict) {
+        if (parseInt(key) >= parseInt(blockTimingObjId)) {
+            if (blockDict[parseInt(key) + 1] === undefined) {
+                delete blockDict[key];
+            }
+            else {
+                blockDict[key] = blockDict[parseInt(key) + 1];
+            }
+        } 
+    }
+    let timeTableDict = mainObjClone.timeTable;
+    for (const key in timeTableDict) {
+        const subjectsIdArr = timeTableDict[key];
+        subjectsIdArr.splice(parseInt(blockTimingObjId),1);
+        timeTableDict[key] = subjectsIdArr;
+    }
+    mainObjClone.blockStartTimings = blockDict;
+    mainObjClone.timeTable = timeTableDict;
+    localStorage.setItem('mainObj', JSON.stringify(mainObjClone));
+    nameFiller();
+    timeFiller();
+}
+function removeLinkRecord(element) {
+    let linkObjId = element.parentElement.parentElement.lastChild.firstChild.id.split('-')[2];
+    let mainObjClone = JSON.parse(localStorage.getItem('mainObj'));
+    let linkDict = mainObjClone.classLink;
+    if(Object.keys(linkDict).length === 1){
+        return void 0;
+    }
+    for (const key in linkDict) {
+        if (parseInt(key) >= parseInt(linkObjId)) {
+            if (linkDict[parseInt(key) + 1] === undefined) {
+                delete linkDict[key];
+            }
+            else {
+                linkDict[key] = linkDict[parseInt(key) + 1];
+            }
+        } 
+    }
+    let timeTableDict = mainObjClone.timeTable;
+    for (const key in timeTableDict) {
+        const subjectsIdArr = timeTableDict[key];
+        for (let i = 0; i < subjectsIdArr.length; i++) {
+            if (parseInt(subjectsIdArr[i]) > parseInt(linkObjId)) {
+                subjectsIdArr[i] = parseInt(subjectsIdArr[i])-1;
+            }
+            else if(parseInt(subjectsIdArr[i]) === parseInt(linkObjId)){
+                subjectsIdArr[i] = null;
+            }
+        }
+        timeTableDict[key] = subjectsIdArr;
+    }
+    mainObjClone.classLink = linkDict;
+    mainObjClone.timeTable = timeTableDict;
+    localStorage.setItem('mainObj', JSON.stringify(mainObjClone));
+    nameFiller();
+    linkFiller();
 }
