@@ -1,5 +1,5 @@
 # Online Classes App
-A web app made using HTML, CSS and Javascript to help anyone join their online classes if they have the join url. Go to nikhilsheoran.github.io/onlineclasses to get started.
+A web app made using HTML, CSS and Javascript to help anyone join their online classes if they have the join url. Go to codeleyout.github.io/onlineclass to get started.
 
 ## Features
 - Add your own Time Table, Class Names and Block Timings.
@@ -8,7 +8,7 @@ A web app made using HTML, CSS and Javascript to help anyone join their online c
 - Template Import and Export Feature to quickly share your class data with anyone.
 
 ## Getting Started
-Go to nikhilsheoran.github.io/onlineclasses to get started.
+Go to codeleyout.github.io/onlineclass to get started.
 
 ### Want To Contribute?
 Fork This project and start a pull request.
